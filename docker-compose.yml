@@ -1,0 +1,40 @@
+version: '3'
+
+volumes:
+  php_sockert:
+
+services:
+  web:
+    container_name: web
+    build: 
+      context: .
+      dockerfile: ./infra/docker/nginx/Dockerfile
+      args:
+          - USER_ID=${USER_ID}
+          - GROUP_ID=${GROUP_ID}
+    ports:
+      - 28000:${WEB_PORT:-8080}
+    volumes:
+      - ./backend:/var/www/backend
+      - php_sockert:/var/run/php-fpm
+
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: ./infra/docker/php/Dockerfile
+      args:
+        - USER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
+    volumes:
+      - ./backend:/var/www/backend
+      - php_sockert:/var/run/php-fpm
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_NAME:-laravel_local}
+      - DB_USERNAME=${DB_USER:-phper}
+      - DB_PASSWORD=${DB_PASS:-secret}
+    depends_on:
+      - web
