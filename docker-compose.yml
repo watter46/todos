@@ -1,7 +1,7 @@
 version: '3'
 
 volumes:
-  php_sockert:
+  php-fpm-socket:
 
 services:
   web:
@@ -13,10 +13,13 @@ services:
           - USER_ID=${USER_ID}
           - GROUP_ID=${GROUP_ID}
     ports:
-      - 28000:${WEB_PORT:-8080}
+      - target: 8080
+        published: ${WEB_PORT}
+        protocol: tcp
+        mode: host
     volumes:
       - ./backend:/var/www/backend
-      - php_sockert:/var/run/php-fpm
+      - php-fpm-socket:/var/run/php-fpm
 
   app:
     container_name: app
@@ -28,7 +31,7 @@ services:
         - GROUP_ID=${GROUP_ID}
     volumes:
       - ./backend:/var/www/backend
-      - php_sockert:/var/run/php-fpm
+      - php-fpm-socket:/var/run/php-fpm
     environment:
       - DB_CONNECTION=mysql
       - DB_HOST=db
