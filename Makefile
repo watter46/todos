@@ -25,3 +25,5 @@ ps:
 				docker ps -a --no-trunc
 env:
 				bash make_env.sh
+destroy:
+	docker compose down --rmi all --volumes --remove-orphans

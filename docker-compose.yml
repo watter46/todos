@@ -18,8 +18,14 @@ services:
         protocol: tcp
         mode: host
     volumes:
-      - ./backend:/var/www/backend
-      - php-fpm-socket:/var/run/php-fpm
+      - type: volume
+        source: php-fpm-socket
+        target: /var/run/php-fpm
+        volume:
+          nocopy: true
+      - type: bind
+        source: ./backend
+        target: /var/www/backend
 
   app:
     container_name: app
