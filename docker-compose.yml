@@ -2,6 +2,7 @@ version: '3.9'
 
 volumes:
   php-fpm-socket:
+  db-store:
 
 services:
   web:
@@ -49,3 +50,22 @@ services:
       - DB_PASSWORD=${DB_PASS:-secret}
     depends_on:
       - web
+
+  db:
+    build:
+      context: .
+      dockerfile: ./infra/docker/mysql/Dockerfile
+    ports:
+      - target: 3306
+        published: ${DB_PORT:-3306}
+        protocol: tcp
+        mode: host
+    volumes:
+      - type: volume
+        source: db-store
+        target: /var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${DB_NAME:-laravel_local}
+      - MYSQL_USER=${DB_USER:-phper}
+      - MYSQL_PASSWORD=${DB_PASS:-secret}
+      - MYSQL_ROOT_PASSWORD=${DB_PASS:-secret}
