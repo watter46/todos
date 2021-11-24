@@ -21,6 +21,8 @@ app:
 				docker compose exec app bash
 web:
 				docker compose exec web bash
+db:
+				docker compose exec db bash
 ps:
 				docker ps -a --no-trunc
 env:
