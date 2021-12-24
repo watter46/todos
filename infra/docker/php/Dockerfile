@@ -1,4 +1,6 @@
-FROM php:7.4-fpm
+FROM node:16-alpine as node
+
+FROM php:7.4-fpm-alpine
 
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
        COMPOSER_HOME=/composer
@@ -16,14 +18,20 @@ ARG GROUP_NAME=hoge \
        USER_NAME=hoge \
        USER_ID ${USER_ID}
 
-RUN groupadd -g $GROUP_ID $GROUP_NAME && \
-       useradd -m -s /bin/bash -u $USER_ID -g $GROUP_ID $USER_NAME && \
+RUN addgroup -g $GROUP_ID $GROUP_NAME && \
+       adduser -h -s /bin/ash -u $USER_ID -g $GROUP_ID $USER_NAME && \
        chown -R $USER_NAME:$GROUP_NAME /var/www/ && \
        chmod +x /var/www/ && \
        mkdir /var/run/php-fpm && \
        chown -R $USER_NAME:$GROUP_NAME /var/www/ && \
        chown -R $USER_NAME:$GROUP_NAME /var/run/ && \
        chown -R $USER_NAME:$GROUP_NAME /var/log/
+
+COPY --from=node /usr/local/bin/node /usr/local/bin/
+COPY --from=node /usr/local/lib/node_modules/ /usr/local/lib/node_modules/
+RUN ln -s /usr/local/bin/node /usr/local/bin/nodejs \
+    && ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+    && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
 
 COPY ./infra/docker/php/php-fpm.d/zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
 COPY ./infra/docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
