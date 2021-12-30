@@ -132,3 +132,11 @@ ide-helper:
 	docker compose exec app php artisan ide-helper:generate
 	docker compose exec app php artisan ide-helper:meta
 	docker compose exec app php artisan ide-helper:models --nowrite
+# Laravel/ui vue.js command
+npm-setup:
+	docker compose exec app composer require laravel/ui 1.* && \
+	php artisan ui bootstrap && \
+	php artisan ui vue --auth && \
+	npm install && \
+	npm install vue-router && \
+	npm run dev
