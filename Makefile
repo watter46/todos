@@ -3,7 +3,7 @@ up:
 build:
 	docker compose build --no-cache --force-rm
 env:
-	bash make_env.sh
+	ash make_env.sh
 laravel-install:
 	docker compose exec app composer create-project --prefer-dist laravel/laravel . "6.*"
 create-project:
@@ -68,7 +68,7 @@ log-db-watch:
 web:
 	docker compose exec web ash
 app:
-	docker compose exec app bash
+	docker compose exec app ash
 migrate:
 	docker compose exec app php artisan migrate
 fresh:
@@ -122,9 +122,9 @@ yarn-watch-poll:
 yarn-hot:
 	docker compose exec web yarn hot
 db:
-	docker compose exec db bash
+	docker compose exec db ash
 sql:
-	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
+	docker compose exec db ash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
 redis:
 	docker compose exec redis redis-cli
 ide-helper:
@@ -132,11 +132,12 @@ ide-helper:
 	docker compose exec app php artisan ide-helper:generate
 	docker compose exec app php artisan ide-helper:meta
 	docker compose exec app php artisan ide-helper:models --nowrite
+
+
 # Laravel/ui vue.js command
 npm-setup:
 	docker compose exec app composer require laravel/ui 1.* && \
-	php artisan ui bootstrap && \
-	php artisan ui vue --auth && \
-	npm install && \
-	npm install vue-router && \
-	npm run dev
+	docker compose exec app php artisan ui bootstrap && \
+	docker compose exec app php artisan ui vue --auth && \
+	docker compose exec app npm install && \
+	docker compose exec app npm install vue-router
