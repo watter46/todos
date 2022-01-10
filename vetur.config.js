@@ -11,21 +11,20 @@ module.exports = {
   // **optional** default: `[{ root: './' }]`
   // support monorepos
   projects: [
-    "./backend", // shorthand for only root.
     {
       // **required**
       // Where is your project?
       // It is relative to `vetur.config.js`.
-      root: "./backend",
+      root: "./backend/",
       // **optional** default: `'package.json'`
       // Where is `package.json` in the project?
       // We use it to determine the version of vue.
       // It is relative to root property.
-      package: "./backend/package.json",
+      package: "./package.json",
       // **optional**
       // Where is TypeScript config file in the project?
       // It is relative to root property.
-      // tsconfig: "./tsconfig.ts",
+      jsconfig: "./jsconfig.json",
       // **optional** default: `'./.vscode/vetur/snippets'`
       // Where is vetur custom snippets folders?
       snippetFolder: "./.vscode/vetur/snippets",
@@ -34,7 +33,7 @@ module.exports = {
       // If you set it, you can get completion by that components.
       // It is relative to root property.
       // Notice: It won't actually do it. You need to use `require.context` or `Vue.component`
-      globalComponents: ["./backend/resources/js/components/**/*.vue"],
+      globalComponents: ["./resources/js/components/**/*.vue"],
     },
   ],
 };
