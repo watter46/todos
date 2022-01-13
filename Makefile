@@ -122,7 +122,7 @@ yarn-watch-poll:
 yarn-hot:
 	docker compose exec web yarn hot
 db:
-	docker compose exec db ash
+	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
 sql:
 	docker compose exec db ash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
 redis:
