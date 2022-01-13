@@ -6,22 +6,22 @@ use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
-    public function get_data() {
-        $todos = Todo::all();
+    public function get_todos() {
+        $todos = Todos::all();
         return $todos;
     }
 
-    public function add_data(Request $request) {
-        $todo = new Todo;
+    public function add_todos(Request $request) {
+        $todo = new Todos;
         $todo->task = $request->task;
         $todo->save();
-        $todos = Todo::all();
+        $todos = Todos::all();
         return $todos;
     }
 
     public function delete_data(Request $request) {
-        $todo = Todo::where('id', $request->id)->delete();
-        $todos = Todo::all();
+        $todo = Todos::where('id', $request->id)->delete();
+        $todos = Todos::all();
         return $todos;
     }
 }
