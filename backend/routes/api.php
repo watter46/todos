@@ -14,9 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => 'api'], function() {
-  Route::get('get', 'TodoController@get_data');
-  Route::post('add', 'TodoController@add_data');
-  Route::post('delete', 'TodoController@delete_data');
+  Route::get('get', 'TaskController@getData');
+  Route::post('add', 'TaskController@addData');
+  // Route::post('delete', 'TodoController@delete_data');
 });
-
-Route::get('/todo', 'TimerController@index');

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div id="nav">
-          <router-link :to="{name: 'todo-list'}">Todo</router-link>
+          <router-link :to="{name: 'task-list'}">Todo</router-link>
         </div>
         <router-view></router-view>
     </div>

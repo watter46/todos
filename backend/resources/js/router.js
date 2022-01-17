@@ -1,14 +1,14 @@
 import Router from 'vue-router'
-import TodoList from '../views/Vue/TodoList.vue'
+import TaskList from '../views/Vue/TaskList.vue'
 // import NotFound from './views/NotFound.vue'
 
-export default new Router({
+export default  new Router({
   mode: 'history',
   routes: [
     {
-      path: '/todo',
-      name: 'todo-list',
-      component: TodoList
+      path: '/get',
+      name: 'task-list',
+      component: TaskList
     },
   ]
 });

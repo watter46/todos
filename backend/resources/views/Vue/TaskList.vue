@@ -10,40 +10,42 @@
           </div>
         </div>
 			</form>
-      
-      <ul class="list-group" v-for="todo in todos" v-bind:key="todo.id">
+      <ul class="list-group" v-for="data in allData" v-bind:key="data.id">
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          {{ todo.task }}
-          <button class="btn btn-outline-secondary bg-danger text-white" @click.prevent="deleteTask(todo.id)">X</button>
+          {{ data.title }}
         </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center"
+         v-for="tasks in data['tasks']" v-bind:key="tasks.id">
+          {{ tasks.task }}
+        </li>
+        <button class="btn btn-outline-secondary bg-danger text-white" @click.prevent="deleteTask(task.id)">X</button>
       </ul>
     </div>
   </div>
 </div>
-
-
 </template>
+
 <script>
     export default {
         data() {
             return {
                 newItem: "",
-                todos: []
+                allData: []
             }
         },
         methods: {
             getJsonData() {
-                axios.get('/api/get')
-                .then((response) => {
-                  this.todos = response.data;
-                });
+              axios.get('/api/get')
+              .then((response) => {
+              this.allData = response.data;
+              });
             },
             addTask() {
                 axios.post('/api/add', {
                   task: this.newItem
                 })
                 .then((response) => {
-                  this.todos = response.data;
+                  this.data = response.data;
                   this.newItem = "";
                 });
             },
@@ -52,9 +54,9 @@
                   id: task_id 
                 })
                 .then((response) => {
-                  this.todos = response.data
+                  this.data = response.data
                 });
-            }
+            },
         },
         mounted() {
             this.getJsonData();
