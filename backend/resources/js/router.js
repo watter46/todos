@@ -6,9 +6,14 @@ export default  new Router({
   mode: 'history',
   routes: [
     {
-      path: '/get',
+      path: '/task',
       name: 'task-list',
       component: TaskList
     },
+    // {
+    //   path: '/task/{id}',
+    //   name: 'task-list',
+    //   component: TaskList
+    // }
   ]
 });

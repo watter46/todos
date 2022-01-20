@@ -2207,10 +2207,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2219,32 +2215,42 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    // getJsonData(id) {
+    //   axios.get('/api/task',{
+    //     id: id
+    //   })
+    //   .then((response) => {
+    //   this.allData = response.data;
+    //   });
+    // },
     getJsonData: function getJsonData() {
       var _this = this;
 
-      axios.get('/api/get').then(function (response) {
+      axios.get('/api/task').then(function (response) {
         _this.allData = response.data;
       });
-    },
-    addTask: function addTask() {
-      var _this2 = this;
+    } // addTask() {
+    //     axios.post('/api/task/add', {
+    //       task: this.newItem
+    //     })
+    //     .then((response) => {
+    //       this.data = response.data;
+    //       this.newItem = "";
+    //     });
+    // },
+    // addTitle() {
+    // },
+    // deleteAllTask() {
+    // },
+    // deleteTask(task_id) {
+    //     axios.post('/api/task/delete', {
+    //       id: task_id 
+    //     })
+    //     .then((response) => {
+    //       this.data = response.data
+    //     });
+    // },
 
-      axios.post('/api/add', {
-        task: this.newItem
-      }).then(function (response) {
-        _this2.data = response.data;
-        _this2.newItem = "";
-      });
-    },
-    deleteTask: function deleteTask(task_id) {
-      var _this3 = this;
-
-      axios.post('/api/delete', {
-        id: task_id
-      }).then(function (response) {
-        _this3.data = response.data;
-      });
-    }
   },
   mounted: function mounted() {
     this.getJsonData();
@@ -2363,10 +2369,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
   routes: [{
-    path: '/get',
+    path: '/task',
     name: 'task-list',
     component: _views_Vue_TaskList_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }]
+  } // {
+  //   path: '/task/{id}',
+  //   name: 'task-list',
+  //   component: TaskList
+  // }
+  ]
 }));
 
 /***/ }),
@@ -37887,107 +37898,43 @@ var render = function () {
       "div",
       { staticClass: "row justify-content-center align-items-center main-row" },
       [
-        _c(
-          "div",
-          { staticClass: "col shadow main-col bg-white" },
-          [
-            _c("form", [
-              _c("div", { staticClass: "form-group" }, [
-                _c("div", { staticClass: "input-group" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.newItem,
-                        expression: "newItem",
-                      },
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "text",
-                      "aria-label": "Text input with checkbox",
-                    },
-                    domProps: { value: _vm.newItem },
-                    on: {
-                      input: function ($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.newItem = $event.target.value
-                      },
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "submit" },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.addTask.apply(null, arguments)
-                        },
-                      },
-                    },
-                    [_vm._v("追加")]
-                  ),
-                ]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.allData, function (data) {
-              return _c(
-                "ul",
-                { key: data.id, staticClass: "list-group" },
-                [
-                  _c(
-                    "li",
-                    {
-                      staticClass:
-                        "list-group-item d-flex justify-content-between align-items-center",
-                    },
-                    [_vm._v("\n          " + _vm._s(data.title) + "\n        ")]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(data["tasks"], function (tasks) {
-                    return _c(
-                      "li",
-                      {
-                        key: tasks.id,
-                        staticClass:
-                          "list-group-item d-flex justify-content-between align-items-center",
-                      },
-                      [
-                        _vm._v(
-                          "\n          " + _vm._s(tasks.task) + "\n        "
-                        ),
-                      ]
-                    )
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass:
-                        "btn btn-outline-secondary bg-danger text-white",
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.deleteTask(_vm.task.id)
-                        },
-                      },
-                    },
-                    [_vm._v("X")]
-                  ),
-                ],
-                2
-              )
-            }),
-          ],
-          2
-        ),
+        _c("div", { staticClass: "col shadow main-col bg-white" }, [
+          _c("div", { staticClass: "container" }, [
+            _c(
+              "div",
+              { staticClass: "row flex-row flex-nowrap overflow-auto" },
+              _vm._l(_vm.allData, function (data) {
+                return _c(
+                  "div",
+                  { key: data.id, staticClass: "col-6 border border-success" },
+                  [
+                    _c("div", { staticClass: "border border-danger" }, [
+                      _vm._v(
+                        "\n            " + _vm._s(data.title) + "\n          "
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(data.tasks, function (test) {
+                      return _c(
+                        "div",
+                        { key: test.id, staticClass: "border border-primary" },
+                        [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(test.task) +
+                              "\n          "
+                          ),
+                        ]
+                      )
+                    }),
+                  ],
+                  2
+                )
+              }),
+              0
+            ),
+          ]),
+        ]),
       ]
     ),
   ])
