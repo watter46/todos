@@ -2207,6 +2207,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2215,30 +2224,25 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    // getJsonData(id) {
-    //   axios.get('/api/task',{
-    //     id: id
-    //   })
-    //   .then((response) => {
-    //   this.allData = response.data;
-    //   });
-    // },
     getJsonData: function getJsonData() {
       var _this = this;
 
       axios.get('/api/task').then(function (response) {
         _this.allData = response.data;
       });
-    } // addTask() {
-    //     axios.post('/api/task/add', {
-    //       task: this.newItem
-    //     })
-    //     .then((response) => {
-    //       this.data = response.data;
-    //       this.newItem = "";
-    //     });
-    // },
-    // addTitle() {
+    },
+    addTask: function addTask(title_id) {
+      var value = this.$refs.newItem.value;
+      console.log(value);
+      console.log(title_id); // axios.post('/api/task/add', {
+      //   task: this.newItem,
+      //   title_id
+      // })
+      // .then((response) => {
+      //   this.data = response.data;
+      //   this.newItem = "";
+      // });
+    } // addTitle() {
     // },
     // deleteAllTask() {
     // },
@@ -37893,53 +37897,163 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c(
-      "div",
-      { staticClass: "row justify-content-center align-items-center main-row" },
-      [
-        _c("div", { staticClass: "col shadow main-col bg-white" }, [
-          _c("div", { staticClass: "container" }, [
-            _c(
-              "div",
-              { staticClass: "row flex-row flex-nowrap overflow-auto" },
-              _vm._l(_vm.allData, function (data) {
-                return _c(
-                  "div",
-                  { key: data.id, staticClass: "col-6 border border-success" },
-                  [
-                    _c("div", { staticClass: "border border-danger" }, [
-                      _vm._v(
-                        "\n            " + _vm._s(data.title) + "\n          "
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(data.tasks, function (test) {
-                      return _c(
+  return _c(
+    "div",
+    {
+      staticClass: "container border border-primary",
+      staticStyle: { height: "95vh" },
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "row justify-content-center align-items-center main-row",
+        },
+        [
+          _c("div", { staticClass: "col shadow main-col bg-white" }, [
+            _c("div", { staticClass: "container text-wrap" }, [
+              _c(
+                "div",
+                { staticClass: "row flex-row flex-nowrap overflow-auto" },
+                _vm._l(_vm.allData, function (data) {
+                  return _c(
+                    "div",
+                    {
+                      key: data.id,
+                      staticClass: "col-6 border border-success",
+                      staticStyle: { height: "65vh" },
+                    },
+                    [
+                      _c(
                         "div",
-                        { key: test.id, staticClass: "border border-primary" },
+                        { staticClass: "border border-danger h1 row" },
                         [
-                          _vm._v(
-                            "\n            " +
-                              _vm._s(test.task) +
-                              "\n          "
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: data.title,
+                                expression: "data.title",
+                              },
+                            ],
+                            staticClass: "col-10 text-center",
+                            domProps: { value: data.title },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(data, "title", $event.target.value)
+                              },
+                            },
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "col-2 h2 font-weight-bold text-center",
+                              on: {
+                                click: function ($event) {
+                                  $event.preventDefault()
+                                  return _vm.deleteTask.apply(null, arguments)
+                                },
+                              },
+                            },
+                            [_vm._v("×")]
                           ),
                         ]
-                      )
-                    }),
-                  ],
-                  2
-                )
-              }),
-              0
-            ),
+                      ),
+                      _vm._v(" "),
+                      _vm._l(data.tasks, function (test) {
+                        return _c(
+                          "div",
+                          {
+                            key: test.id,
+                            staticClass: "border border-primary h2 row",
+                          },
+                          [
+                            _vm._m(0, true),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: test.task,
+                                  expression: "test.task",
+                                },
+                              ],
+                              staticClass: "col-9",
+                              domProps: { value: test.task },
+                              on: {
+                                input: function ($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(test, "task", $event.target.value)
+                                },
+                              },
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "col-2 h2 font-weight-bold text-center",
+                                on: {
+                                  click: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteTask.apply(null, arguments)
+                                  },
+                                },
+                              },
+                              [_vm._v("×")]
+                            ),
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "h1 font-weight-bold text-center",
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.addList.apply(null, arguments)
+                            },
+                          },
+                        },
+                        [_vm._v("+")]
+                      ),
+                    ],
+                    2
+                  )
+                }),
+                0
+              ),
+            ]),
           ]),
-        ]),
-      ]
-    ),
-  ])
+        ]
+      ),
+    ]
+  )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-1" }, [
+      _c("input", {
+        staticStyle: { transform: "scale(2)" },
+        attrs: { type: "checkbox" },
+      }),
+    ])
+  },
+]
 render._withStripped = true
 
 
