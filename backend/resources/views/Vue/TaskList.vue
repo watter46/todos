@@ -1,30 +1,37 @@
 <template>
-<div class="container border border-primary" style="height: 95vh">
-  <div class="row justify-content-center align-items-center main-row">
-    <div class="col shadow main-col bg-white">
+<div class="container" style="height: 95vh">
+  <!-- <div class="row justify-content-center align-items-center main-row"> -->
+    <!-- <div class="col shadow main-col bg-white"> -->
     
     <div class="container text-wrap">
       <div class="row flex-row flex-nowrap overflow-auto">
-        <div class="col-6 border border-success" style="height: 65vh" v-for="data in allData" v-bind:key="data.id">
-          <div class="border border-danger h1 row">
-            <input class="col-10 text-center" v-model="data.title">
-            <div class="col-2 h2 font-weight-bold text-center" @click.prevent="deleteTask">×</div>
+        <div class="col-6 mr-4" style="height: 65vh" v-for="data in allData" v-bind:key="data.id">
+
+        <!-- タイトル -->
+          <div class="input-group input-group-lg mb-3 border border-white">
+            <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" aria-label="Text input with checkbox" v-model="data.title">
+            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask">×</span>
+          </div>
+          
+        <!-- タスク一覧 -->
+          <div class="input-group mb-3 border border-white" v-for="test in data.tasks" v-bind:key="test.id">
+            <div class="input-group-text border-0 bg-white">
+              <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+            </div>
+            <input type="text" class="form-control border-end-0 rounded-1 text-wrap" aria-label="Text input with checkbox" v-model="test.task">
+            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask">×</span>
           </div>
 
-          <div class="border border-primary h2 row" v-for="test in data.tasks" v-bind:key="test.id">
-            <div class="col-1">
-            <input type="checkbox" style="transform: scale(2);">
-            </div>
-            <input class="col-9" v-model="test.task">
-            <div class="col-2 h2 font-weight-bold text-center" @click.prevent="deleteTask">×</div>
-          </div>
+          <!-- テスト -->
+
+
           <div class="h1 font-weight-bold text-center" @click.prevent="addList">+</div>
         </div>
       </div>
     </div>
 
-    </div>
-  </div>
+    <!-- </div> -->
+  <!-- </div> -->
 </div>
 </template>
 

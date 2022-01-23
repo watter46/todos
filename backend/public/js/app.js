@@ -2216,6 +2216,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -37899,145 +37906,144 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "container border border-primary",
-      staticStyle: { height: "95vh" },
-    },
+    { staticClass: "container", staticStyle: { height: "95vh" } },
     [
-      _c(
-        "div",
-        {
-          staticClass: "row justify-content-center align-items-center main-row",
-        },
-        [
-          _c("div", { staticClass: "col shadow main-col bg-white" }, [
-            _c("div", { staticClass: "container text-wrap" }, [
-              _c(
-                "div",
-                { staticClass: "row flex-row flex-nowrap overflow-auto" },
-                _vm._l(_vm.allData, function (data) {
+      _c("div", { staticClass: "container text-wrap" }, [
+        _c(
+          "div",
+          { staticClass: "row flex-row flex-nowrap overflow-auto" },
+          _vm._l(_vm.allData, function (data) {
+            return _c(
+              "div",
+              {
+                key: data.id,
+                staticClass: "col-6 mr-4",
+                staticStyle: { height: "65vh" },
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "input-group input-group-lg mb-3 border border-white",
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: data.title,
+                          expression: "data.title",
+                        },
+                      ],
+                      staticClass:
+                        "form-control border-end-0 rounded-1 text-wrap text-center",
+                      attrs: {
+                        type: "text",
+                        "aria-label": "Text input with checkbox",
+                      },
+                      domProps: { value: data.title },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(data, "title", $event.target.value)
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "input-group-text bg-white border-start-0",
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.deleteTask.apply(null, arguments)
+                          },
+                        },
+                      },
+                      [_vm._v("×")]
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._l(data.tasks, function (test) {
                   return _c(
                     "div",
                     {
-                      key: data.id,
-                      staticClass: "col-6 border border-success",
-                      staticStyle: { height: "65vh" },
+                      key: test.id,
+                      staticClass: "input-group mb-3 border border-white",
                     },
                     [
-                      _c(
-                        "div",
-                        { staticClass: "border border-danger h1 row" },
-                        [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: data.title,
-                                expression: "data.title",
-                              },
-                            ],
-                            staticClass: "col-10 text-center",
-                            domProps: { value: data.title },
-                            on: {
-                              input: function ($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(data, "title", $event.target.value)
-                              },
-                            },
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "col-2 h2 font-weight-bold text-center",
-                              on: {
-                                click: function ($event) {
-                                  $event.preventDefault()
-                                  return _vm.deleteTask.apply(null, arguments)
-                                },
-                              },
-                            },
-                            [_vm._v("×")]
-                          ),
-                        ]
-                      ),
+                      _vm._m(0, true),
                       _vm._v(" "),
-                      _vm._l(data.tasks, function (test) {
-                        return _c(
-                          "div",
+                      _c("input", {
+                        directives: [
                           {
-                            key: test.id,
-                            staticClass: "border border-primary h2 row",
+                            name: "model",
+                            rawName: "v-model",
+                            value: test.task,
+                            expression: "test.task",
                           },
-                          [
-                            _vm._m(0, true),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: test.task,
-                                  expression: "test.task",
-                                },
-                              ],
-                              staticClass: "col-9",
-                              domProps: { value: test.task },
-                              on: {
-                                input: function ($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(test, "task", $event.target.value)
-                                },
-                              },
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "col-2 h2 font-weight-bold text-center",
-                                on: {
-                                  click: function ($event) {
-                                    $event.preventDefault()
-                                    return _vm.deleteTask.apply(null, arguments)
-                                  },
-                                },
-                              },
-                              [_vm._v("×")]
-                            ),
-                          ]
-                        )
+                        ],
+                        staticClass:
+                          "form-control border-end-0 rounded-1 text-wrap",
+                        attrs: {
+                          type: "text",
+                          "aria-label": "Text input with checkbox",
+                        },
+                        domProps: { value: test.task },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(test, "task", $event.target.value)
+                          },
+                        },
                       }),
                       _vm._v(" "),
                       _c(
-                        "div",
+                        "span",
                         {
-                          staticClass: "h1 font-weight-bold text-center",
+                          staticClass:
+                            "input-group-text bg-white border-start-0",
                           on: {
                             click: function ($event) {
                               $event.preventDefault()
-                              return _vm.addList.apply(null, arguments)
+                              return _vm.deleteTask.apply(null, arguments)
                             },
                           },
                         },
-                        [_vm._v("+")]
+                        [_vm._v("×")]
                       ),
-                    ],
-                    2
+                    ]
                   )
                 }),
-                0
-              ),
-            ]),
-          ]),
-        ]
-      ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "h1 font-weight-bold text-center",
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.addList.apply(null, arguments)
+                      },
+                    },
+                  },
+                  [_vm._v("+")]
+                ),
+              ],
+              2
+            )
+          }),
+          0
+        ),
+      ]),
     ]
   )
 }
@@ -38046,10 +38052,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-1" }, [
+    return _c("div", { staticClass: "input-group-text border-0 bg-white" }, [
       _c("input", {
-        staticStyle: { transform: "scale(2)" },
-        attrs: { type: "checkbox" },
+        staticClass: "form-check-input mt-0",
+        attrs: {
+          type: "checkbox",
+          value: "",
+          "aria-label": "Checkbox for following text input",
+        },
       }),
     ])
   },
