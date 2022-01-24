@@ -13,19 +13,22 @@
             <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask">×</span>
           </div>
           
+          
         <!-- タスク一覧 -->
           <div class="input-group mb-3 border border-white" v-for="test in data.tasks" v-bind:key="test.id">
             <div class="input-group-text border-0 bg-white">
               <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
             </div>
             <input type="text" class="form-control border-end-0 rounded-1 text-wrap" aria-label="Text input with checkbox" v-model="test.task">
-            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask">×</span>
+            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(test.id)">×</span>
+          テスト: {{ test.id }}
           </div>
+          
 
           <!-- テスト -->
+          テスト: {{ data['tasks'] }}
 
-
-          <div class="h1 font-weight-bold text-center" @click.prevent="addList">+</div>
+          <div class="h1 font-weight-bold text-center" @click.prevent="addList(data.tasks[0]['title_id'])">+</div>
         </div>
       </div>
     </div>
@@ -52,33 +55,22 @@
               this.allData = response.data;
               });
             },
-            addTask(title_id) {
-            let value = this.$refs.newItem.value;
-            console.log(value);
-            console.log(title_id);
-                // axios.post('/api/task/add', {
-                //   task: this.newItem,
-                //   title_id
-                // })
-                // .then((response) => {
-                //   this.data = response.data;
-                //   this.newItem = "";
-                // });
+            addList(title_id) {
+              axios.post('/api/task/add', {
+                title_id: title_id,
+              })
+              .then((response) => {
+                this.allData = response.data;
+              });
             },
-            // addTitle() {
-
-            // },
-            // deleteAllTask() {
-
-            // },
-            // deleteTask(task_id) {
-            //     axios.post('/api/task/delete', {
-            //       id: task_id 
-            //     })
-            //     .then((response) => {
-            //       this.data = response.data
-            //     });
-            // },
+            deleteTask(id) {
+              axios.post('/api/task/delete', {
+                id: id
+              })
+              .then((response) => {
+                this.allData = response.data;
+              })
+            }
         },
         mounted() {
             this.getJsonData();

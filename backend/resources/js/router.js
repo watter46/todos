@@ -10,10 +10,5 @@ export default  new Router({
       name: 'task-list',
       component: TaskList
     },
-    // {
-    //   path: '/task/{id}',
-    //   name: 'task-list',
-    //   component: TaskList
-    // }
   ]
 });

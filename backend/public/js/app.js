@@ -2223,6 +2223,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2238,30 +2241,24 @@ __webpack_require__.r(__webpack_exports__);
         _this.allData = response.data;
       });
     },
-    addTask: function addTask(title_id) {
-      var value = this.$refs.newItem.value;
-      console.log(value);
-      console.log(title_id); // axios.post('/api/task/add', {
-      //   task: this.newItem,
-      //   title_id
-      // })
-      // .then((response) => {
-      //   this.data = response.data;
-      //   this.newItem = "";
-      // });
-    } // addTitle() {
-    // },
-    // deleteAllTask() {
-    // },
-    // deleteTask(task_id) {
-    //     axios.post('/api/task/delete', {
-    //       id: task_id 
-    //     })
-    //     .then((response) => {
-    //       this.data = response.data
-    //     });
-    // },
+    addList: function addList(title_id) {
+      var _this2 = this;
 
+      axios.post('/api/task/add', {
+        title_id: title_id
+      }).then(function (response) {
+        _this2.allData = response.data;
+      });
+    },
+    deleteTask: function deleteTask(id) {
+      var _this3 = this;
+
+      axios.post('/api/task/delete', {
+        id: id
+      }).then(function (response) {
+        _this3.allData = response.data;
+      });
+    }
   },
   mounted: function mounted() {
     this.getJsonData();
@@ -2383,12 +2380,7 @@ __webpack_require__.r(__webpack_exports__);
     path: '/task',
     name: 'task-list',
     component: _views_Vue_TaskList_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  } // {
-  //   path: '/task/{id}',
-  //   name: 'task-list',
-  //   component: TaskList
-  // }
-  ]
+  }]
 }));
 
 /***/ }),
@@ -38014,16 +38006,26 @@ var render = function () {
                           on: {
                             click: function ($event) {
                               $event.preventDefault()
-                              return _vm.deleteTask.apply(null, arguments)
+                              return _vm.deleteTask(test.id)
                             },
                           },
                         },
                         [_vm._v("×")]
                       ),
+                      _vm._v(
+                        "\n          テスト: " +
+                          _vm._s(test.id) +
+                          "\n          "
+                      ),
                     ]
                   )
                 }),
                 _vm._v(" "),
+                _vm._v(
+                  "\n          テスト: " +
+                    _vm._s(data["tasks"]) +
+                    "\n\n          "
+                ),
                 _c(
                   "div",
                   {
@@ -38031,7 +38033,7 @@ var render = function () {
                     on: {
                       click: function ($event) {
                         $event.preventDefault()
-                        return _vm.addList.apply(null, arguments)
+                        return _vm.addList(data.tasks[0]["title_id"])
                       },
                     },
                   },
