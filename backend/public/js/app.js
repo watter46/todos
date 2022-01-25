@@ -2234,34 +2234,43 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getJsonData: function getJsonData() {
-      var _this = this;
-
-      axios.get('/api/task').then(function (response) {
-        _this.allData = response.data;
-      });
-    },
     addList: function addList(title_id) {
-      var _this2 = this;
+      var _this = this;
 
       axios.post('/api/task/add', {
         title_id: title_id
       }).then(function (response) {
-        _this2.allData = response.data;
+        _this.allData = response.data;
       });
     },
     deleteTask: function deleteTask(id) {
-      var _this3 = this;
+      var _this2 = this;
 
       axios.post('/api/task/delete', {
         id: id
       }).then(function (response) {
-        _this3.allData = response.data;
+        _this2.allData = response.data;
       });
     }
   },
   mounted: function mounted() {
-    this.getJsonData();
+    var _this3 = this;
+
+    axios.get('/api/task').then(function (response) {
+      _this3.allData = response.data;
+    });
+  },
+  watch: {
+    allData: {
+      handler: function handler(newKeyword, oldKeyword) {
+        console.log("新しい");
+        console.log(newKeyword);
+        console.log("古い:");
+        console.log(oldKeyword); // this.message = "Waiting for you to stop typing...."
+        // this.debouncedGetAnswer();
+      },
+      deep: true
+    }
   }
 });
 
@@ -37921,14 +37930,6 @@ var render = function () {
                   },
                   [
                     _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: data.title,
-                          expression: "data.title",
-                        },
-                      ],
                       staticClass:
                         "form-control border-end-0 rounded-1 text-wrap text-center",
                       attrs: {
@@ -37936,14 +37937,6 @@ var render = function () {
                         "aria-label": "Text input with checkbox",
                       },
                       domProps: { value: data.title },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(data, "title", $event.target.value)
-                        },
-                      },
                     }),
                     _vm._v(" "),
                     _c(
@@ -37973,14 +37966,6 @@ var render = function () {
                       _vm._m(0, true),
                       _vm._v(" "),
                       _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: test.task,
-                            expression: "test.task",
-                          },
-                        ],
                         staticClass:
                           "form-control border-end-0 rounded-1 text-wrap",
                         attrs: {
@@ -37988,14 +37973,6 @@ var render = function () {
                           "aria-label": "Text input with checkbox",
                         },
                         domProps: { value: test.task },
-                        on: {
-                          input: function ($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(test, "task", $event.target.value)
-                          },
-                        },
                       }),
                       _vm._v(" "),
                       _c(
@@ -38013,9 +37990,7 @@ var render = function () {
                         [_vm._v("×")]
                       ),
                       _vm._v(
-                        "\n          テスト: " +
-                          _vm._s(test.id) +
-                          "\n          "
+                        "\n          テスト: " + _vm._s(test) + "\n          "
                       ),
                     ]
                   )

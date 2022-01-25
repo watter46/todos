@@ -9,7 +9,7 @@
 
         <!-- タイトル -->
           <div class="input-group input-group-lg mb-3 border border-white">
-            <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" aria-label="Text input with checkbox" v-model="data.title">
+            <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" aria-label="Text input with checkbox" v-bind:value="data.title">
             <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask">×</span>
           </div>
           
@@ -19,9 +19,9 @@
             <div class="input-group-text border-0 bg-white">
               <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
             </div>
-            <input type="text" class="form-control border-end-0 rounded-1 text-wrap" aria-label="Text input with checkbox" v-model="test.task">
+            <input type="text" class="form-control border-end-0 rounded-1 text-wrap" aria-label="Text input with checkbox" v-bind:value="test.task">
             <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(test.id)">×</span>
-          テスト: {{ test.id }}
+          テスト: {{ test }}
           </div>
           
 
@@ -43,37 +43,47 @@
 <script>
     export default {
         data() {
-            return {
-                newItem: "",
-                allData: []
-            }
+          return {
+            newItem: "",
+            allData: [],
+          }
         },
         methods: {
-            getJsonData() {
-              axios.get('/api/task')
-              .then((response) => {
+          addList(title_id) {
+            axios.post('/api/task/add', {
+              title_id: title_id,
+            })
+            .then((response) => {
               this.allData = response.data;
-              });
-            },
-            addList(title_id) {
-              axios.post('/api/task/add', {
-                title_id: title_id,
-              })
-              .then((response) => {
-                this.allData = response.data;
-              });
-            },
-            deleteTask(id) {
-              axios.post('/api/task/delete', {
-                id: id
-              })
-              .then((response) => {
-                this.allData = response.data;
-              })
-            }
+            });
+          },
+          deleteTask(id) {
+            axios.post('/api/task/delete', {
+              id: id
+            })
+            .then((response) => {
+              this.allData = response.data;
+            })
+          }
         },
         mounted() {
-            this.getJsonData();
+          axios.get('/api/task')
+            .then((response) => {
+            this.allData = response.data;
+            });
         },
+        watch: {
+          allData: {
+              handler: function (newKeyword, oldKeyword) {
+              console.log("新しい");
+              console.log(newKeyword);
+              console.log("古い:");
+              console.log(oldKeyword);
+              // this.message = "Waiting for you to stop typing...."
+              // this.debouncedGetAnswer();
+            },
+            deep: true
+          }
+        }
     }
 </script>
