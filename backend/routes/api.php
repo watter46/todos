@@ -15,6 +15,6 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware' => 'api'], function() {
   Route::get('/task', 'TaskController@getData');
-  Route::post('/task/add', 'TaskController@addList');
+  Route::post('/task/addList', 'TaskController@addList');
   Route::post('/task/delete', 'TaskController@deleteTask');
 });

@@ -2219,17 +2219,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      newItem: "",
+      input: "",
       allData: []
     };
   },
@@ -2237,7 +2230,7 @@ __webpack_require__.r(__webpack_exports__);
     addList: function addList(title_id) {
       var _this = this;
 
-      axios.post('/api/task/add', {
+      axios.post('/api/task/addList', {
         title_id: title_id
       }).then(function (response) {
         _this.allData = response.data;
@@ -2251,6 +2244,16 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this2.allData = response.data;
       });
+    },
+    addTask: function addTask(event) {
+      // this.$set(this.newItem, 'id', id)
+      // this.$set(this.newItem, 'title_id', title_id)
+      // this.$set(this.newItem, 'task', event.target.value)
+      // console.log(this.newItem)
+      this.input = event.target;
+      console.log("id: " + event.target.id);
+      console.log("title_id: " + event.target.title);
+      console.log("task: " + event.target.value);
     }
   },
   mounted: function mounted() {
@@ -2261,15 +2264,10 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   watch: {
-    allData: {
-      handler: function handler(newKeyword, oldKeyword) {
-        console.log("新しい");
-        console.log(newKeyword);
-        console.log("古い:");
-        console.log(oldKeyword); // this.message = "Waiting for you to stop typing...."
-        // this.debouncedGetAnswer();
-      },
-      deep: true
+    input: function input(event) {
+      console.log(event.id);
+      console.log(event.title);
+      console.log(event.value);
     }
   }
 });
@@ -37971,8 +37969,15 @@ var render = function () {
                         attrs: {
                           type: "text",
                           "aria-label": "Text input with checkbox",
+                          id: test.id,
+                          title: test.title_id,
                         },
                         domProps: { value: test.task },
+                        on: {
+                          change: function ($event) {
+                            return _vm.addTask($event)
+                          },
+                        },
                       }),
                       _vm._v(" "),
                       _c(
@@ -37990,17 +37995,16 @@ var render = function () {
                         [_vm._v("×")]
                       ),
                       _vm._v(
-                        "\n          テスト: " + _vm._s(test) + "\n          "
+                        "\n            " +
+                          _vm._s(test.title_id) +
+                          "\n            " +
+                          _vm._s(test.id) +
+                          "\n          "
                       ),
                     ]
                   )
                 }),
                 _vm._v(" "),
-                _vm._v(
-                  "\n          テスト: " +
-                    _vm._s(data["tasks"]) +
-                    "\n\n          "
-                ),
                 _c(
                   "div",
                   {
