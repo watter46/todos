@@ -7,24 +7,22 @@
         <!-- タイトル -->
           <div class="input-group input-group-lg mb-3 border border-white">
             <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" aria-label="Text input with checkbox" 
-              v-bind:value="data.title">
+              @change="editTitle($event)"  :value="data.title" :id="data.id">
             <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask">×</span>
           </div>
           
           
         <!-- タスク一覧 -->
-          <div class="input-group mb-3 border border-white" v-for="test in data.tasks" v-bind:key="test.id">
+          <div class="input-group mb-3 border border-white" v-for="tasks in data.tasks" v-bind:key="tasks.id">
             <div class="input-group-text border-0 bg-white">
               <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
             </div>
             <input type="text" class="form-control border-end-0 rounded-1 text-wrap" aria-label="Text input with checkbox" 
-               @change="addTask($event)" :value="test.task" :id="test.id" :title="test.title_id">
-            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(test.id)">×</span>
-            {{ test.title_id }}
-            {{ test.id }}
+               @change="editTask($event)" :value="tasks.task" :id="tasks.id">
+            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id)">×</span>
           </div>
 
-          <div class="h1 font-weight-bold text-center" @click.prevent="addList(data.tasks[0]['title_id'])">+</div>
+          <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div>
         </div>
       </div>
     </div>
@@ -37,13 +35,14 @@
     export default {
         data() {
           return {
-            input: "",
+            newTitle: [],
+            newTask: [],
             allData: [],
           }
         },
         methods: {
-          addList(title_id) {
-            axios.post('/api/task/addList', {
+          addTextBox(title_id) {
+            axios.post('/api/task/addTextBox', {
               title_id: title_id,
             })
             .then((response) => {
@@ -58,28 +57,43 @@
               this.allData = response.data;
             })
           },
-          addTask(event) {
-            // this.$set(this.newItem, 'id', id)
-            // this.$set(this.newItem, 'title_id', title_id)
-            // this.$set(this.newItem, 'task', event.target.value)
-            // console.log(this.newItem)
-            this.input = event.target
-            console.log("id: " + event.target.id)
-            console.log("title_id: " + event.target.title)
-            console.log("task: " + event.target.value)
+          editTask(event) {
+            this.newTask.push({
+              id: event.target.id,
+              task: event.target.value
+            })
+          },
+          editTitle(event) {
+            this.newTitle.push({
+              id: event.target.id,
+              title: event.target.value
+            })
           }
         },
         mounted() {
           axios.get('/api/task')
             .then((response) => {
-            this.allData = response.data;
-            });
+            this.allData = response.data
+            })
         },
         watch: {
-          input: function (event) {
-            console.log(event.id)
-            console.log(event.title)
-            console.log(event.value)
+          newTask: function (newTask) {
+            axios.post('/api/task/addNewTask', {
+              id: newTask[0].id,
+              task: newTask[0].task
+            })
+            .then((response) => {
+              this.allData = response.data
+            })
+          },
+          newTitle: function (newTitle) {
+            axios.post('/api/task/addNewTitle', {
+              id: newTitle[0].id,
+              title: newTitle[0].title
+            })
+            .then((response) => {
+              this.allData = response.data
+            })
           }
         }
     }

@@ -2217,20 +2217,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      input: "",
+      newTitle: [],
+      newTask: [],
       allData: []
     };
   },
   methods: {
-    addList: function addList(title_id) {
+    addTextBox: function addTextBox(title_id) {
       var _this = this;
 
-      axios.post('/api/task/addList', {
+      axios.post('/api/task/addTextBox', {
         title_id: title_id
       }).then(function (response) {
         _this.allData = response.data;
@@ -2245,15 +2244,17 @@ __webpack_require__.r(__webpack_exports__);
         _this2.allData = response.data;
       });
     },
-    addTask: function addTask(event) {
-      // this.$set(this.newItem, 'id', id)
-      // this.$set(this.newItem, 'title_id', title_id)
-      // this.$set(this.newItem, 'task', event.target.value)
-      // console.log(this.newItem)
-      this.input = event.target;
-      console.log("id: " + event.target.id);
-      console.log("title_id: " + event.target.title);
-      console.log("task: " + event.target.value);
+    editTask: function editTask(event) {
+      this.newTask.push({
+        id: event.target.id,
+        task: event.target.value
+      });
+    },
+    editTitle: function editTitle(event) {
+      this.newTitle.push({
+        id: event.target.id,
+        title: event.target.value
+      });
     }
   },
   mounted: function mounted() {
@@ -2264,10 +2265,25 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   watch: {
-    input: function input(event) {
-      console.log(event.id);
-      console.log(event.title);
-      console.log(event.value);
+    newTask: function newTask(_newTask) {
+      var _this4 = this;
+
+      axios.post('/api/task/addNewTask', {
+        id: _newTask[0].id,
+        task: _newTask[0].task
+      }).then(function (response) {
+        _this4.allData = response.data;
+      });
+    },
+    newTitle: function newTitle(_newTitle) {
+      var _this5 = this;
+
+      axios.post('/api/task/addNewTitle', {
+        id: _newTitle[0].id,
+        title: _newTitle[0].title
+      }).then(function (response) {
+        _this5.allData = response.data;
+      });
     }
   }
 });
@@ -37933,8 +37949,14 @@ var render = function () {
                       attrs: {
                         type: "text",
                         "aria-label": "Text input with checkbox",
+                        id: data.id,
                       },
                       domProps: { value: data.title },
+                      on: {
+                        change: function ($event) {
+                          return _vm.editTitle($event)
+                        },
+                      },
                     }),
                     _vm._v(" "),
                     _c(
@@ -37953,11 +37975,11 @@ var render = function () {
                   ]
                 ),
                 _vm._v(" "),
-                _vm._l(data.tasks, function (test) {
+                _vm._l(data.tasks, function (tasks) {
                   return _c(
                     "div",
                     {
-                      key: test.id,
+                      key: tasks.id,
                       staticClass: "input-group mb-3 border border-white",
                     },
                     [
@@ -37969,13 +37991,12 @@ var render = function () {
                         attrs: {
                           type: "text",
                           "aria-label": "Text input with checkbox",
-                          id: test.id,
-                          title: test.title_id,
+                          id: tasks.id,
                         },
-                        domProps: { value: test.task },
+                        domProps: { value: tasks.task },
                         on: {
                           change: function ($event) {
-                            return _vm.addTask($event)
+                            return _vm.editTask($event)
                           },
                         },
                       }),
@@ -37988,18 +38009,11 @@ var render = function () {
                           on: {
                             click: function ($event) {
                               $event.preventDefault()
-                              return _vm.deleteTask(test.id)
+                              return _vm.deleteTask(tasks.id)
                             },
                           },
                         },
                         [_vm._v("×")]
-                      ),
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(test.title_id) +
-                          "\n            " +
-                          _vm._s(test.id) +
-                          "\n          "
                       ),
                     ]
                   )
@@ -38012,7 +38026,7 @@ var render = function () {
                     on: {
                       click: function ($event) {
                         $event.preventDefault()
-                        return _vm.addList(data.tasks[0]["title_id"])
+                        return _vm.addTextBox(data.tasks[0]["title_id"])
                       },
                     },
                   },

@@ -13,14 +13,32 @@ class TaskController extends Controller
         return $titles->with('tasks:id,title_id,task')->get();
     }
 
-    public function addList(Request $request) {
-        $tasks = new Task;
-        $tasks->title_id = $request->title_id;
-        $tasks->task = "";
-        $tasks->save();
+    public function addTextBox(Request $request) {
+        $task = new Task;
+        $task->title_id = $request->title_id;
+        $task->task = "";
+        $task->save();
         $titles = Title::select('id','area','title');
         return $titles->with('tasks:id,title_id,task')->get();
     }
+
+    public function addNewTitle(Request $request) {
+    $title = Title::find($request->id);
+    $title->title = $request->title;
+    $title->save();
+    $titles = Title::select('id','area','title');
+    return $titles->with('tasks:id,title_id,task')->get();
+    }
+
+
+    public function addNewTask(Request $request) {
+        $task = Task::find($request->id);
+        $task->task = $request->task;
+        $task->save();
+        $titles = Title::select('id','area','title');
+        return $titles->with('tasks:id,title_id,task')->get();
+    }
+
 
     public function deleteTask(Request $request) {
         $tasks = Task::where('id', $request->id)->delete();
