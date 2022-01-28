@@ -2235,15 +2235,6 @@ __webpack_require__.r(__webpack_exports__);
         _this.allData = response.data;
       });
     },
-    deleteTask: function deleteTask(id) {
-      var _this2 = this;
-
-      axios.post('/api/task/delete', {
-        id: id
-      }).then(function (response) {
-        _this2.allData = response.data;
-      });
-    },
     editTask: function editTask(event) {
       this.newTask.push({
         id: event.target.id,
@@ -2255,34 +2246,58 @@ __webpack_require__.r(__webpack_exports__);
         id: event.target.id,
         title: event.target.value
       });
+    },
+    deleteTask: function deleteTask(id) {
+      var _this2 = this;
+
+      axios.post('/api/task/delete', {
+        id: id
+      }).then(function (response) {
+        _this2.allData = response.data;
+      });
+    },
+    allDelete: function allDelete(id, title) {
+      var _this3 = this;
+
+      var result = window.confirm('タイトル:' + title + 'のタスク全てを削除しますか？');
+
+      if (result) {
+        axios.post('/api/task/allDelete', {
+          id: id
+        }).then(function (response) {
+          _this3.allData = response.data;
+        });
+      } else {
+        return;
+      }
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     axios.get('/api/task').then(function (response) {
-      _this3.allData = response.data;
+      _this4.allData = response.data;
     });
   },
   watch: {
     newTask: function newTask(_newTask) {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.post('/api/task/addNewTask', {
         id: _newTask[0].id,
         task: _newTask[0].task
       }).then(function (response) {
-        _this4.allData = response.data;
+        _this5.allData = response.data;
       });
     },
     newTitle: function newTitle(_newTitle) {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.post('/api/task/addNewTitle', {
         id: _newTitle[0].id,
         title: _newTitle[0].title
       }).then(function (response) {
-        _this5.allData = response.data;
+        _this6.allData = response.data;
       });
     }
   }
@@ -37966,7 +37981,7 @@ var render = function () {
                         on: {
                           click: function ($event) {
                             $event.preventDefault()
-                            return _vm.deleteTask.apply(null, arguments)
+                            return _vm.allDelete(data.id, data.title)
                           },
                         },
                       },

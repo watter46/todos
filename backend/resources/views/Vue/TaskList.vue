@@ -8,7 +8,7 @@
           <div class="input-group input-group-lg mb-3 border border-white">
             <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" aria-label="Text input with checkbox" 
               @change="editTitle($event)"  :value="data.title" :id="data.id">
-            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask">×</span>
+            <span class="input-group-text bg-white border-start-0" @click.prevent="allDelete(data.id, data.title)">×</span>
           </div>
           
           
@@ -49,14 +49,6 @@
               this.allData = response.data;
             });
           },
-          deleteTask(id) {
-            axios.post('/api/task/delete', {
-              id: id
-            })
-            .then((response) => {
-              this.allData = response.data;
-            })
-          },
           editTask(event) {
             this.newTask.push({
               id: event.target.id,
@@ -68,6 +60,27 @@
               id: event.target.id,
               title: event.target.value
             })
+          },
+          deleteTask(id) {
+            axios.post('/api/task/delete', {
+              id: id
+            })
+            .then((response) => {
+              this.allData = response.data;
+            })
+          },
+          allDelete(id, title) {
+            let result = window.confirm('タイトル:' + title + 'のタスク全てを削除しますか？')
+            if (result) {
+              axios.post('/api/task/allDelete', {
+                id: id
+              })
+              .then((response) => {
+                this.allData = response.data;
+              })
+            } else {
+              return
+            }
           }
         },
         mounted() {

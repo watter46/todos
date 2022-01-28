@@ -23,11 +23,11 @@ class TaskController extends Controller
     }
 
     public function addNewTitle(Request $request) {
-    $title = Title::find($request->id);
-    $title->title = $request->title;
-    $title->save();
-    $titles = Title::select('id','area','title');
-    return $titles->with('tasks:id,title_id,task')->get();
+        $title = Title::find($request->id);
+        $title->title = $request->title;
+        $title->save();
+        $titles = Title::select('id','area','title');
+        return $titles->with('tasks:id,title_id,task')->get();
     }
 
 
@@ -42,6 +42,12 @@ class TaskController extends Controller
 
     public function deleteTask(Request $request) {
         $tasks = Task::where('id', $request->id)->delete();
+        $titles = Title::select('id','area','title');
+        return $titles->with('tasks:id,title_id,task')->get();
+    }
+
+    public function allDelete(Request $request) {
+        $titles = Title::where('id', $request->id)->delete();
         $titles = Title::select('id','area','title');
         return $titles->with('tasks:id,title_id,task')->get();
     }

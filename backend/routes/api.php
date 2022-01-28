@@ -19,4 +19,5 @@ Route::group(['middleware' => 'api'], function() {
   Route::post('/task/addNewTitle', 'TaskController@addNewTitle');
   Route::post('/task/addNewTask', 'TaskController@addNewTask');
   Route::post('/task/delete', 'TaskController@deleteTask');
+  Route::post('/task/allDelete', 'TaskController@allDelete');
 });
