@@ -4,8 +4,8 @@
       <div class="row flex-row flex-nowrap overflow-auto">
         <div class="col-6 mr-4" style="height: 65vh" v-for="data in allData" v-bind:key="data.id">
 
-        <!-- タイトル -->
-          <div class="input-group input-group-lg mb-3 border border-white">
+        <!-- タイトル一覧 -->
+          <div class="input-group input-group-lg mb-3 border border-primary">
             <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" aria-label="Text input with checkbox" 
               @change="editTitle($event)"  :value="data.title" :id="data.id">
             <span class="input-group-text bg-white border-start-0" @click.prevent="allDelete(data.id, data.title)">×</span>
@@ -15,11 +15,11 @@
         <!-- タスク一覧 -->
           <div class="input-group mb-3 border border-white" v-for="tasks in data.tasks" v-bind:key="tasks.id">
             <div class="input-group-text border-0 bg-white">
-              <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+              <input class="form-check-input mt-0" type="checkbox" v-model="tasks.done">
             </div>
             <input type="text" class="form-control border-end-0 rounded-1 text-wrap" aria-label="Text input with checkbox" 
                @change="editTask($event)" :value="tasks.task" :id="tasks.id">
-            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id)">×</span>
+            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id, tasks.done)">×</span>
           </div>
 
           <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div>
@@ -61,13 +61,17 @@
               title: event.target.value
             })
           },
-          deleteTask(id) {
-            axios.post('/api/task/delete', {
-              id: id
-            })
-            .then((response) => {
-              this.allData = response.data;
-            })
+          deleteTask(id, done) {
+            if (done) {
+              axios.post('/api/task/delete', {
+                id: id
+              })
+              .then((response) => {
+                this.allData = response.data;
+              })              
+            } else {
+              window.alert('タスクが終わっていません')
+            }
           },
           allDelete(id, title) {
             let result = window.confirm('タイトル:' + title + 'のタスク全てを削除しますか？')

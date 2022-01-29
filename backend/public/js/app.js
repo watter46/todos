@@ -2247,14 +2247,18 @@ __webpack_require__.r(__webpack_exports__);
         title: event.target.value
       });
     },
-    deleteTask: function deleteTask(id) {
+    deleteTask: function deleteTask(id, done) {
       var _this2 = this;
 
-      axios.post('/api/task/delete', {
-        id: id
-      }).then(function (response) {
-        _this2.allData = response.data;
-      });
+      if (done) {
+        axios.post('/api/task/delete', {
+          id: id
+        }).then(function (response) {
+          _this2.allData = response.data;
+        });
+      } else {
+        window.alert('タスクが終わっていません');
+      }
     },
     allDelete: function allDelete(id, title) {
       var _this3 = this;
@@ -37955,7 +37959,7 @@ var render = function () {
                   "div",
                   {
                     staticClass:
-                      "input-group input-group-lg mb-3 border border-white",
+                      "input-group input-group-lg mb-3 border border-primary",
                   },
                   [
                     _c("input", {
@@ -37998,7 +38002,55 @@ var render = function () {
                       staticClass: "input-group mb-3 border border-white",
                     },
                     [
-                      _vm._m(0, true),
+                      _c(
+                        "div",
+                        { staticClass: "input-group-text border-0 bg-white" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: tasks.done,
+                                expression: "tasks.done",
+                              },
+                            ],
+                            staticClass: "form-check-input mt-0",
+                            attrs: { type: "checkbox" },
+                            domProps: {
+                              checked: Array.isArray(tasks.done)
+                                ? _vm._i(tasks.done, null) > -1
+                                : tasks.done,
+                            },
+                            on: {
+                              change: function ($event) {
+                                var $$a = tasks.done,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = null,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(tasks, "done", $$a.concat([$$v]))
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        tasks,
+                                        "done",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
+                                } else {
+                                  _vm.$set(tasks, "done", $$c)
+                                }
+                              },
+                            },
+                          }),
+                        ]
+                      ),
                       _vm._v(" "),
                       _c("input", {
                         staticClass:
@@ -38024,7 +38076,7 @@ var render = function () {
                           on: {
                             click: function ($event) {
                               $event.preventDefault()
-                              return _vm.deleteTask(tasks.id)
+                              return _vm.deleteTask(tasks.id, tasks.done)
                             },
                           },
                         },
@@ -38057,23 +38109,7 @@ var render = function () {
     ]
   )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-text border-0 bg-white" }, [
-      _c("input", {
-        staticClass: "form-check-input mt-0",
-        attrs: {
-          type: "checkbox",
-          value: "",
-          "aria-label": "Checkbox for following text input",
-        },
-      }),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
