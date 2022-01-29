@@ -16,6 +16,7 @@ class TaskController extends Controller
     public function addTextBox(Request $request) {
         $task = new Task;
         $task->title_id = $request->title_id;
+        $task->done = false;
         $task->task = "";
         $task->save();
         $titles = Title::select('id','area','title');
