@@ -2247,10 +2247,10 @@ __webpack_require__.r(__webpack_exports__);
         title: event.target.value
       });
     },
-    deleteTask: function deleteTask(id, done) {
+    deleteTask: function deleteTask(id, done, task) {
       var _this2 = this;
 
-      if (done) {
+      if (done || !task) {
         axios.post('/api/task/delete', {
           id: id
         }).then(function (response) {
@@ -2284,25 +2284,33 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   watch: {
-    newTask: function newTask(_newTask) {
+    newTask: function newTask(_newTask, oldTask) {
       var _this5 = this;
 
-      axios.post('/api/task/addNewTask', {
-        id: _newTask[0].id,
-        task: _newTask[0].task
-      }).then(function (response) {
-        _this5.allData = response.data;
-      });
+      if (!_newTask) {
+        axios.post('/api/task/addNewTask', {
+          id: _newTask[0].id,
+          task: _newTask[0].task
+        }).then(function (response) {
+          _this5.allData = response.data;
+        });
+      } else {
+        window.alert('タスクを入力してください');
+      }
     },
     newTitle: function newTitle(_newTitle) {
       var _this6 = this;
 
-      axios.post('/api/task/addNewTitle', {
-        id: _newTitle[0].id,
-        title: _newTitle[0].title
-      }).then(function (response) {
-        _this6.allData = response.data;
-      });
+      if (_newTitle !== null) {
+        axios.post('/api/task/addNewTitle', {
+          id: _newTitle[0].id,
+          title: _newTitle[0].title
+        }).then(function (response) {
+          _this6.allData = response.data;
+        });
+      } else {
+        window.alert('タイトルを入力して下さい');
+      }
     }
   }
 });
@@ -38076,7 +38084,11 @@ var render = function () {
                           on: {
                             click: function ($event) {
                               $event.preventDefault()
-                              return _vm.deleteTask(tasks.id, tasks.done)
+                              return _vm.deleteTask(
+                                tasks.id,
+                                tasks.done,
+                                tasks.task
+                              )
                             },
                           },
                         },

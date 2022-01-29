@@ -19,7 +19,7 @@
             </div>
             <input type="text" class="form-control border-end-0 rounded-1 text-wrap" aria-label="Text input with checkbox" 
                @change="editTask($event)" :value="tasks.task" :id="tasks.id">
-            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id, tasks.done)">×</span>
+            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id, tasks.done, tasks.task)">×</span>
           </div>
 
           <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div>
@@ -61,14 +61,14 @@
               title: event.target.value
             })
           },
-          deleteTask(id, done) {
-            if (done) {
+          deleteTask(id, done, task) {
+            if (done || !task) {
               axios.post('/api/task/delete', {
                 id: id
               })
               .then((response) => {
                 this.allData = response.data;
-              })              
+              })
             } else {
               window.alert('タスクが終わっていません')
             }
@@ -94,7 +94,8 @@
             })
         },
         watch: {
-          newTask: function (newTask) {
+          newTask: function (newTask, oldTask) {
+            if(!newTask) {
             axios.post('/api/task/addNewTask', {
               id: newTask[0].id,
               task: newTask[0].task
@@ -102,8 +103,12 @@
             .then((response) => {
               this.allData = response.data
             })
+            } else {
+              window.alert('タスクを入力してください')
+            }
           },
           newTitle: function (newTitle) {
+            if(newTitle !== null) {
             axios.post('/api/task/addNewTitle', {
               id: newTitle[0].id,
               title: newTitle[0].title
@@ -111,6 +116,9 @@
             .then((response) => {
               this.allData = response.data
             })
+            } else {
+              window.alert('タイトルを入力して下さい')
+            }
           }
         }
     }
