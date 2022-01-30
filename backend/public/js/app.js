@@ -2217,6 +2217,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2284,10 +2307,10 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   watch: {
-    newTask: function newTask(_newTask, oldTask) {
+    newTask: function newTask(_newTask) {
       var _this5 = this;
 
-      if (!_newTask) {
+      if (!_newTask && _newTask !== null) {
         axios.post('/api/task/addNewTask', {
           id: _newTask[0].id,
           task: _newTask[0].task
@@ -2296,6 +2319,19 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         window.alert('タスクを入力してください');
+        console.log(this.newTask);
+        console.log(_newTask); // this.newTask = []
+      }
+
+      if (_newTask[0].task !== "" && _newTask[0].task !== null) {
+        console.log('空ではない');
+        console.log(_newTask[0].task);
+        console.log(_newTask);
+      } else {
+        window.alert('タスクを入力してください');
+        this.newTask = "";
+        console.log('空である');
+        console.log(_newTask);
       }
     },
     newTitle: function newTitle(_newTitle) {
@@ -37957,11 +37993,7 @@ var render = function () {
           _vm._l(_vm.allData, function (data) {
             return _c(
               "div",
-              {
-                key: data.id,
-                staticClass: "col-6 mr-4",
-                staticStyle: { height: "65vh" },
-              },
+              { key: data.id, staticStyle: { height: "65vh" } },
               [
                 _c(
                   "div",
@@ -37973,11 +38005,7 @@ var render = function () {
                     _c("input", {
                       staticClass:
                         "form-control border-end-0 rounded-1 text-wrap text-center",
-                      attrs: {
-                        type: "text",
-                        "aria-label": "Text input with checkbox",
-                        id: data.id,
-                      },
+                      attrs: { type: "text", id: data.id },
                       domProps: { value: data.title },
                       on: {
                         change: function ($event) {
@@ -38001,118 +38029,7 @@ var render = function () {
                     ),
                   ]
                 ),
-                _vm._v(" "),
-                _vm._l(data.tasks, function (tasks) {
-                  return _c(
-                    "div",
-                    {
-                      key: tasks.id,
-                      staticClass: "input-group mb-3 border border-white",
-                    },
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "input-group-text border-0 bg-white" },
-                        [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: tasks.done,
-                                expression: "tasks.done",
-                              },
-                            ],
-                            staticClass: "form-check-input mt-0",
-                            attrs: { type: "checkbox" },
-                            domProps: {
-                              checked: Array.isArray(tasks.done)
-                                ? _vm._i(tasks.done, null) > -1
-                                : tasks.done,
-                            },
-                            on: {
-                              change: function ($event) {
-                                var $$a = tasks.done,
-                                  $$el = $event.target,
-                                  $$c = $$el.checked ? true : false
-                                if (Array.isArray($$a)) {
-                                  var $$v = null,
-                                    $$i = _vm._i($$a, $$v)
-                                  if ($$el.checked) {
-                                    $$i < 0 &&
-                                      _vm.$set(tasks, "done", $$a.concat([$$v]))
-                                  } else {
-                                    $$i > -1 &&
-                                      _vm.$set(
-                                        tasks,
-                                        "done",
-                                        $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1))
-                                      )
-                                  }
-                                } else {
-                                  _vm.$set(tasks, "done", $$c)
-                                }
-                              },
-                            },
-                          }),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass:
-                          "form-control border-end-0 rounded-1 text-wrap",
-                        attrs: {
-                          type: "text",
-                          "aria-label": "Text input with checkbox",
-                          id: tasks.id,
-                        },
-                        domProps: { value: tasks.task },
-                        on: {
-                          change: function ($event) {
-                            return _vm.editTask($event)
-                          },
-                        },
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticClass:
-                            "input-group-text bg-white border-start-0",
-                          on: {
-                            click: function ($event) {
-                              $event.preventDefault()
-                              return _vm.deleteTask(
-                                tasks.id,
-                                tasks.done,
-                                tasks.task
-                              )
-                            },
-                          },
-                        },
-                        [_vm._v("×")]
-                      ),
-                    ]
-                  )
-                }),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "h1 font-weight-bold text-center",
-                    on: {
-                      click: function ($event) {
-                        $event.preventDefault()
-                        return _vm.addTextBox(data.tasks[0]["title_id"])
-                      },
-                    },
-                  },
-                  [_vm._v("+")]
-                ),
-              ],
-              2
+              ]
             )
           }),
           0

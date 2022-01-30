@@ -1,19 +1,20 @@
-<template>
-<div class="container" style="height: 95vh">
-    <div class="container text-wrap">
-      <div class="row flex-row flex-nowrap overflow-auto">
-        <div class="col-6 mr-4" style="height: 65vh" v-for="data in allData" v-bind:key="data.id">
+
+<!-- <div class="container" style="height: 95vh"> -->
+    <!-- <div class="container text-wrap"> -->
+      <!-- <div class="row flex-row flex-nowrap overflow-auto"> -->
+        <!-- <div class="col-6 mr-4" style="height: 65vh" v-for="data in allData" v-bind:key="data.id"> -->
 
         <!-- タイトル一覧 -->
-          <div class="input-group input-group-lg mb-3 border border-primary">
+
+          <!-- <div class="input-group input-group-lg mb-3 border border-primary">
             <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" aria-label="Text input with checkbox" 
               @change="editTitle($event)"  :value="data.title" :id="data.id">
             <span class="input-group-text bg-white border-start-0" @click.prevent="allDelete(data.id, data.title)">×</span>
-          </div>
-          
+          </div> -->
           
         <!-- タスク一覧 -->
-          <div class="input-group mb-3 border border-white" v-for="tasks in data.tasks" v-bind:key="tasks.id">
+
+          <!-- <div class="input-group mb-3 border border-white" v-for="tasks in data.tasks" v-bind:key="tasks.id">
             <div class="input-group-text border-0 bg-white">
               <input class="form-check-input mt-0" type="checkbox" v-model="tasks.done">
             </div>
@@ -22,7 +23,29 @@
             <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id, tasks.done, tasks.task)">×</span>
           </div>
 
-          <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div>
+          <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div> -->
+
+        <!-- </div>
+      </div>
+    </div>
+</div>
+</template> -->
+
+
+<template>
+<div class="container" style="height: 95vh">
+    <div class="container text-wrap">
+      <div class="row flex-row flex-nowrap overflow-auto">
+        <div class="" style="height: 65vh" v-for="data in allData" v-bind:key="data.id">
+
+        <!-- タイトルテスト -->
+          <div class="input-group input-group-lg mb-3 border border-primary">
+            <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center"
+              @change="editTitle($event)"  :value="data.title" :id="data.id">
+            <span class="input-group-text bg-white border-start-0" @click.prevent="allDelete(data.id, data.title)">×</span>
+          </div>
+          
+
         </div>
       </div>
     </div>
@@ -94,8 +117,8 @@
             })
         },
         watch: {
-          newTask: function (newTask, oldTask) {
-            if(!newTask) {
+          newTask: function (newTask) {
+            if(!newTask && newTask !== null) {
             axios.post('/api/task/addNewTask', {
               id: newTask[0].id,
               task: newTask[0].task
@@ -105,6 +128,20 @@
             })
             } else {
               window.alert('タスクを入力してください')
+              console.log(this.newTask)
+              console.log(newTask)
+              // this.newTask = []
+            }
+
+            if(newTask[0].task !== "" && newTask[0].task !== null) {
+              console.log('空ではない')
+              console.log(newTask[0].task)
+              console.log(newTask)
+            } else {
+              window.alert('タスクを入力してください')
+              this.newTask = ""
+              console.log('空である')
+              console.log(newTask)
             }
           },
           newTitle: function (newTitle) {
