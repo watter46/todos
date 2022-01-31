@@ -15,63 +15,72 @@ class TasksTableSeeder extends Seeder
         $task = new Task([
             'title_id' => 1,
             'done' => false,
-            'task' => 'タスク: 1'
+            'task' => 'タスク: 1',
+            'comment' => 'コメント: テスト'
         ]);
         $task->save();
 
         $task = new Task([
             'title_id' => 1,
             'done' => false,
-            'task' => 'タスク: 2'
+            'task' => 'タスク: 2',
+            'comment' => 'コメント: テスト'
         ]);
         $task->save();
 
         $task = new Task([
             'title_id' => 1,
             'done' => false,
-            'task' => 'タスク: 3'
+            'task' => 'タスク: 3',
+            'comment' => 'コメント: テスト'
         ]);
         $task->save();
 
         $task = new Task([
             'title_id' => 2,
             'done' => false,
-            'task' => 'タスク: 4'
+            'task' => 'タスク: 4',
+            'comment' => 'コメント: テスト'
         ]);
         $task->save();
 
         $task = new Task([
             'title_id' => 2,
             'done' => false,
-            'task' => 'タスク: 5'
+            'task' => 'タスク: 5',
+            'comment' => 'コメント: テスト'
         ]);
         $task->save();
 
         $task = new Task([
             'title_id' => 3,
             'done' => false,
-            'task' => 'タスク: 6'
+            'task' => 'タスク: 6',
+            'comment' => 'コメント: テスト'
         ]);
         $task->save();
 
         $task = new Task([
             'title_id' => 3,
             'done' => false,
-            'task' => 'タスク: 7'
+            'task' => 'タスク: 7',
+            'comment' => 'コメント: テスト'
         ]);
         $task->save();
 
         $task = new Task([
             'title_id' => 3,
             'done' => false,
-            'task' => 'タスク: 8'
+            'task' => 'タスク: 8',
+            'comment' => 'コメント: テスト'
         ]);
         $task->save();
 
         $task = new Task([
             'title_id' => 3,
             'done' => false,
-            'task' => 'タスク: 9'
+            'task' => 'タスク: 9',
+            'comment' => 'コメント: テスト'
         ]);
         $task->save();
     }
