@@ -2240,11 +2240,72 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       newTitle: [],
       newTask: [],
+      showTask: [],
       allData: []
     };
   },
@@ -2299,11 +2360,20 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
+  computed: {
+    test: function test() {
+      var index = 0;
+      return this.showTask[index];
+    }
+  },
   mounted: function mounted() {
     var _this4 = this;
 
     axios.get('/api/task').then(function (response) {
       _this4.allData = response.data;
+      _this4.showTask = response.data.map(function (obj) {
+        return obj.tasks;
+      });
     });
   },
   watch: {
@@ -37982,61 +38052,72 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container", staticStyle: { height: "95vh" } },
-    [
-      _c("div", { staticClass: "container text-wrap" }, [
+  return _c("div", { staticClass: "container" }, [
+    _c(
+      "div",
+      { staticClass: "container text-wrap" },
+      [
         _c(
           "div",
           { staticClass: "row flex-row flex-nowrap overflow-auto" },
-          _vm._l(_vm.allData, function (data) {
+          _vm._l(_vm.allData, function (titles) {
             return _c(
               "div",
-              { key: data.id, staticStyle: { height: "65vh" } },
+              {
+                key: titles.id,
+                staticClass:
+                  "input-group input-group-lg mb-3 border border-primary",
+              },
               [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "input-group input-group-lg mb-3 border border-primary",
+                _c("input", {
+                  staticClass:
+                    "form-control border-end-0 rounded-1 text-wrap text-center",
+                  attrs: { type: "text", id: titles.id },
+                  domProps: { value: titles.title },
+                  on: {
+                    change: function ($event) {
+                      return _vm.editTitle($event)
+                    },
                   },
-                  [
-                    _c("input", {
-                      staticClass:
-                        "form-control border-end-0 rounded-1 text-wrap text-center",
-                      attrs: { type: "text", id: data.id },
-                      domProps: { value: data.title },
-                      on: {
-                        change: function ($event) {
-                          return _vm.editTitle($event)
-                        },
+                }),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  {
+                    staticClass: "input-group-text bg-white border-start-0",
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.allDelete(titles.id, titles.title)
                       },
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        staticClass: "input-group-text bg-white border-start-0",
-                        on: {
-                          click: function ($event) {
-                            $event.preventDefault()
-                            return _vm.allDelete(data.id, data.title)
-                          },
-                        },
-                      },
-                      [_vm._v("×")]
-                    ),
-                  ]
+                    },
+                  },
+                  [_vm._v("×")]
                 ),
               ]
             )
           }),
           0
         ),
-      ]),
-    ]
-  )
+        _vm._v(" "),
+        _vm._l(_vm.test, function (tasks) {
+          return _c("div", { key: tasks.id }, [
+            _c("input", {
+              attrs: { type: "text" },
+              domProps: { value: tasks.task },
+            }),
+            _c("br"),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { type: "text" },
+              domProps: { value: tasks.comment },
+            }),
+          ])
+        }),
+      ],
+      2
+    ),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
