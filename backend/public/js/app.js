@@ -2230,83 +2230,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       newTitle: [],
       newTask: [],
       showTask: [],
-      allData: []
+      allData: [],
+      testData: [{
+        "id": 1,
+        "tasks": [{
+          "id": 1,
+          "task": "aaa"
+        }, {
+          "id": 2,
+          "task": "aaa2"
+        }]
+      }, {
+        "id": 2,
+        "tasks": [{
+          "id": 3,
+          "task": "aaa3"
+        }, {
+          "id": 4,
+          "task": "aaa4"
+        }]
+      }]
     };
   },
   methods: {
@@ -2358,23 +2307,46 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         return;
       }
-    }
-  },
-  computed: {
-    test: function test() {
-      var index = 0;
-      return this.showTask[index];
+    },
+    testAdd: function testAdd() {
+      this.testData.push({
+        "id": 3,
+        "tasks": [{
+          "id": 4,
+          "task": "aaa3"
+        }, {
+          "id": 5,
+          "task": "aaa4"
+        }]
+      });
+      console.log(this.testData);
+    },
+    testDelete: function testDelete(id) {
+      var newObj = this.testData.filter(function (data) {
+        if (data.id !== id) return true;
+      });
+      this.testData = newObj;
+      console.log(this.testData);
     }
   },
   mounted: function mounted() {
     var _this4 = this;
 
     axios.get('/api/task').then(function (response) {
-      _this4.allData = response.data;
+      _this4.allData = response.data; // console.log(JSON.stringify(response.data, null, 2));
+
       _this4.showTask = response.data.map(function (obj) {
         return obj.tasks;
       });
     });
+  },
+  computed: {
+    findTask: function findTask() {
+      return function () {
+        var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+        return index;
+      };
+    }
   },
   watch: {
     newTask: function newTask(_newTask) {
@@ -38053,70 +38025,207 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c(
-      "div",
-      { staticClass: "container text-wrap" },
-      [
-        _c(
-          "div",
-          { staticClass: "row flex-row flex-nowrap overflow-auto" },
-          _vm._l(_vm.allData, function (titles) {
+    _c("div", { staticClass: "container text-wrap" }, [
+      _c(
+        "div",
+        {},
+        [
+          _vm._l(_vm.allData, function (data) {
             return _c(
               "div",
-              {
-                key: titles.id,
-                staticClass:
-                  "input-group input-group-lg mb-3 border border-primary",
-              },
+              { key: data.id, staticClass: "mr-4 mb-5 border border-danger" },
               [
-                _c("input", {
-                  staticClass:
-                    "form-control border-end-0 rounded-1 text-wrap text-center",
-                  attrs: { type: "text", id: titles.id },
-                  domProps: { value: titles.title },
-                  on: {
-                    change: function ($event) {
-                      return _vm.editTitle($event)
-                    },
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "input-group input-group-lg col-7 p-0 mb-3 border border-primary",
                   },
+                  [
+                    _c("input", {
+                      staticClass:
+                        "form-control border-end-0 rounded-1 text-wrap text-center",
+                      attrs: { type: "text", id: data.id },
+                      domProps: { value: data.title },
+                      on: {
+                        change: function ($event) {
+                          return _vm.editTitle($event)
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "input-group-text bg-white border-start-0",
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.allDelete(data.id, data.title)
+                          },
+                        },
+                      },
+                      [_vm._v("×")]
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._l(data.tasks, function (tasks) {
+                  return _c(
+                    "div",
+                    {
+                      key: tasks.id,
+                      staticClass: "d-flex justify-content-start",
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "input-group col-6 mb-3 border border-white",
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "input-group-text border-0 bg-white",
+                            },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: tasks.done,
+                                    expression: "tasks.done",
+                                  },
+                                ],
+                                staticClass: "form-check-input mt-0",
+                                attrs: { type: "checkbox" },
+                                domProps: {
+                                  checked: Array.isArray(tasks.done)
+                                    ? _vm._i(tasks.done, null) > -1
+                                    : tasks.done,
+                                },
+                                on: {
+                                  change: function ($event) {
+                                    var $$a = tasks.done,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            tasks,
+                                            "done",
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            tasks,
+                                            "done",
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
+                                    } else {
+                                      _vm.$set(tasks, "done", $$c)
+                                    }
+                                  },
+                                },
+                              }),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass:
+                              "form-control border-end-0 rounded-1 text-wrap",
+                            attrs: { type: "text", id: tasks.id },
+                            domProps: { value: tasks.task },
+                            on: {
+                              change: function ($event) {
+                                return _vm.editTask($event)
+                              },
+                            },
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              staticClass:
+                                "input-group-text bg-white border-start-0",
+                              on: {
+                                click: function ($event) {
+                                  $event.preventDefault()
+                                  return _vm.deleteTask(
+                                    tasks.id,
+                                    tasks.done,
+                                    tasks.task
+                                  )
+                                },
+                              },
+                            },
+                            [_vm._v("×")]
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", [_c("p", [_vm._v(_vm._s(tasks))])]),
+                    ]
+                  )
                 }),
                 _vm._v(" "),
                 _c(
-                  "span",
+                  "div",
                   {
-                    staticClass: "input-group-text bg-white border-start-0",
+                    staticClass: "h1 font-weight-bold text-center",
                     on: {
                       click: function ($event) {
                         $event.preventDefault()
-                        return _vm.allDelete(titles.id, titles.title)
+                        return _vm.addTextBox(data.tasks[0]["title_id"])
                       },
                     },
                   },
-                  [_vm._v("×")]
+                  [_vm._v("+")]
                 ),
-              ]
+              ],
+              2
             )
           }),
-          0
-        ),
-        _vm._v(" "),
-        _vm._l(_vm.test, function (tasks) {
-          return _c("div", { key: tasks.id }, [
-            _c("input", {
-              attrs: { type: "text" },
-              domProps: { value: tasks.task },
-            }),
-            _c("br"),
-            _vm._v(" "),
-            _c("input", {
-              attrs: { type: "text" },
-              domProps: { value: tasks.comment },
-            }),
-          ])
-        }),
-      ],
-      2
-    ),
+          _vm._v(
+            "\n         \n          " + _vm._s(_vm.testData) + "\n          "
+          ),
+          _c(
+            "button",
+            {
+              on: {
+                click: function ($event) {
+                  return _vm.testAdd()
+                },
+              },
+            },
+            [_vm._v("追加")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              on: {
+                click: function ($event) {
+                  return _vm.testDelete(2)
+                },
+              },
+            },
+            [_vm._v("削除")]
+          ),
+        ],
+        2
+      ),
+    ]),
   ])
 }
 var staticRenderFns = []

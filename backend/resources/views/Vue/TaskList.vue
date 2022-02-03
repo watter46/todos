@@ -1,115 +1,45 @@
 
-<!-- <div class="container" style="height: 95vh"> -->
-    <!-- <div class="container text-wrap"> -->
-      <!-- <div class="row flex-row flex-nowrap overflow-auto"> -->
-        <!-- <div class="col-6 mr-4" style="height: 65vh" v-for="data in allData" v-bind:key="data.id"> -->
+<template>
+ <div class="container">
+     <div class="container text-wrap">
+       <div class="">
+         <div class="mr-4 mb-5 border border-danger" v-for="data in allData" v-bind:key="data.id">
 
-        <!-- タイトル一覧 -->
+         <!-- タイトル一覧 -->
 
-          <!-- <div class="input-group input-group-lg mb-3 border border-primary">
-            <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" aria-label="Text input with checkbox" 
+           <div class="input-group input-group-lg col-7 p-0 mb-3 border border-primary">
+            <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" 
               @change="editTitle($event)"  :value="data.title" :id="data.id">
             <span class="input-group-text bg-white border-start-0" @click.prevent="allDelete(data.id, data.title)">×</span>
-          </div> -->
+          </div>
           
-        <!-- タスク一覧 -->
-
-          <!-- <div class="input-group mb-3 border border-white" v-for="tasks in data.tasks" v-bind:key="tasks.id">
-            <div class="input-group-text border-0 bg-white">
-              <input class="form-check-input mt-0" type="checkbox" v-model="tasks.done">
+         <!-- タスク一覧 -->
+          <div class="d-flex justify-content-start" v-for="tasks in data.tasks" v-bind:key="tasks.id">
+            <div class="input-group col-6 mb-3 border border-white">
+              <div class="input-group-text border-0 bg-white">
+                <input class="form-check-input mt-0" type="checkbox" v-model="tasks.done">
+              </div>
+              <input type="text" class="form-control border-end-0 rounded-1 text-wrap" 
+                @change="editTask($event)" :value="tasks.task" :id="tasks.id">
+              <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id, tasks.done, tasks.task)">×</span>
             </div>
-            <input type="text" class="form-control border-end-0 rounded-1 text-wrap" aria-label="Text input with checkbox" 
-               @change="editTask($event)" :value="tasks.task" :id="tasks.id">
-            <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id, tasks.done, tasks.task)">×</span>
+            <div>
+              <p>{{ tasks }}</p>
+            </div>
           </div>
 
-          <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div> -->
 
-        <!-- </div>
+          <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div>
+
+         </div>
+         
+          {{testData}}
+          <button @click="testAdd()">追加</button>
+          <button @click="testDelete(2)">削除</button>
+
       </div>
     </div>
 </div>
-</template> -->
-
-
-  <!-- <div class="container" style="height: 95vh">
-      <div class="container text-wrap"> -->
-        
-        <!-- タイトルテスト -->
-        <!-- <div class="row">
-          <div class="" v-for="data in allData" v-bind:key="data.id">
-            <div class="input-group input-group-lg mb-3 border border-primary">
-              <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center"
-                @change="editTitle($event)" :value="data.title" :id="data.id">
-              <span class="input-group-text bg-white border-start-0" @click.prevent="allDelete(data.id, data.title)">×</span>
-            </div>
-          </div>
-        </div> -->
-
-        <!-- タスクテスト -->
-        <!-- <div class="col-6 input-group mb-3 border border-white" v-for="tasks in showTask" v-bind:key="tasks.id">
-          <div class="input-group-text border-0 bg-white">
-            <input class="form-check-input mt-0" type="checkbox" v-model="tasks.done">
-          </div>
-          <input type="text" class="form-control border-end-0 rounded-1 text-wrap" aria-label="Text input with checkbox" 
-              @change="editTask($event)" :value="tasks.task" :id="tasks.id">
-          <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id, tasks.done, tasks.task)">×</span>
-        </div>
-
-        <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div>
-
-      </div>
-  </div>
-</template> -->
-
-<template>
-  <div class="container">
-    <div class="container text-wrap">
-      
-      <!-- タイトルテスト -->
-      <div class="row flex-row flex-nowrap overflow-auto">
-        <div class="input-group input-group-lg mb-3 border border-primary" v-for="titles in allData" v-bind:key="titles.id">
-          <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center"
-            @change="editTitle($event)" :value="titles.title" :id="titles.id">
-          <span class="input-group-text bg-white border-start-0" @click.prevent="allDelete(titles.id, titles.title)">×</span>
-        </div>
-      </div>
-
-      <!-- タスクテスト -->
-      <!-- <div class="input-group mb-3 border border-white" v-for="tasks in allData" v-bind:key="tasks.id"> -->
-        <!-- <div class="input-group-text border-0 bg-white">
-          <input class="form-check-input mt-0" type="checkbox" v-model="tasks.done">
-        </div> -->
-        <!-- <input type="text" class="form-control border-end-0 rounded-1 text-wrap" :value="data.tasks"> -->
-        
-        <!-- <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center"
-            @change="editTitle($event)" :value="data.title" :id="data.id"> -->
-        <!-- <input type="text" class="form-control border-end-0 rounded-1 text-wrap"
-            @change="editTask($event)" :value="data.tasks" :id="tasks.id"> -->
-        <!-- <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id, tasks.done, tasks.task)">×</span> -->
-      <!-- </div> -->
-
-      <div v-for="tasks in test" v-bind:key="tasks.id">
-        <input type="text" :value="tasks.task"><br>
-        <input type="text" :value="tasks.comment">
-      </div>
-
-      <!-- タスクテスト -->
-      <!-- <div class="input-group mb-3 border border-white" v-for="tasks in showTask" v-bind:key="tasks.id"> -->
-        <!-- <div class="input-group-text border-0 bg-white">
-          <input class="form-check-input mt-0" type="checkbox" v-model="tasks.done">
-        </div> -->
-        <!-- <input type="text" class="form-control border-end-0 rounded-1 text-wrap" :value="data.tasks"> -->
-        <!-- テスト:{{ tasks.task }} -->
-        <!-- <input type="text" class="form-control border-end-0 rounded-1 text-wrap"
-            @change="editTask($event)" :value="data.tasks" :id="tasks.id"> -->
-        <!-- <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id, tasks.done, tasks.task)">×</span> -->
-      <!-- </div> -->
-
-      <!-- <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div> -->
-
-    </div>
-  </div>
 </template>
 
 
@@ -122,6 +52,24 @@
             newTask: [],
             showTask: [],
             allData: [],
+            testData: [
+              {
+                "id":1,
+                "tasks":
+                  [
+                    {"id":1, "task": "aaa"},
+                    {"id":2, "task": "aaa2"}
+                  ]
+              },
+              {
+                "id":2,
+                "tasks":
+                  [
+                    {"id":3, "task": "aaa3"},
+                    {"id":4, "task": "aaa4"}
+                  ]
+              }
+            ]
           }
         },
         methods: {
@@ -169,20 +117,41 @@
             } else {
               return
             }
-          }
-        },
-        computed: {
-          test() {
-            let index = 0
-            return this.showTask[index]
+          },
+          testAdd() {
+            this.testData.push({
+                "id":3,
+                "tasks":
+                  [
+                    {"id":4, "task": "aaa3"},
+                    {"id":5, "task": "aaa4"}
+                  ]
+              })
+            console.log(this.testData)
+          },
+          testDelete(id) { 
+            let newObj = this.testData.filter(function(data){
+              if(data.id !== id) return true;
+            });
+
+            this.testData = newObj;
+            console.log(this.testData)
           }
         },
         mounted() {
           axios.get('/api/task')
             .then((response) => {
             this.allData = response.data
+            // console.log(JSON.stringify(response.data, null, 2));
             this.showTask = response.data.map(obj => obj.tasks)
-            })
+          })
+        },
+        computed: {
+          findTask() {
+            return function(index = 0) {
+              return index
+            }
+          }
         },
         watch: {
           newTask: function (newTask) {
