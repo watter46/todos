@@ -2321,9 +2321,11 @@ __webpack_require__.r(__webpack_exports__);
       });
       console.log(this.testData);
     },
-    testDelete: function testDelete(id) {
+    testDelete: function testDelete(deleteId) {
       var newObj = this.testData.filter(function (data) {
-        if (data.id !== id) return true;
+        console.log(data.id);
+        if (data.id !== deleteId) return true;
+        console.log("after: " + data.id);
       });
       this.testData = newObj;
       console.log(this.testData);
@@ -2350,41 +2352,42 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     newTask: function newTask(_newTask) {
-      var _this5 = this;
-
-      if (!_newTask && _newTask !== null) {
+      // if(!newTask && newTask !== null) {
+      // axios.post('/api/task/addNewTask', {
+      //   id: newTask[0].id,
+      //   task: newTask[0].task
+      // })
+      // .then((response) => {
+      //   // this.allData = response.data
+      //   console.log(response.data)
+      // })
+      // } else {
+      //   window.alert('タスクを入力してください')
+      //   console.log(this.newTask)
+      //   console.log(newTask)
+      //   // this.newTask = []
+      // }
+      if (_newTask[0].task !== "" && _newTask[0].task !== null) {
         axios.post('/api/task/addNewTask', {
           id: _newTask[0].id,
           task: _newTask[0].task
         }).then(function (response) {
-          _this5.allData = response.data;
+          // this.allData = response.data
+          console.log(response.data);
         });
       } else {
         window.alert('タスクを入力してください');
-        console.log(this.newTask);
-        console.log(_newTask); // this.newTask = []
-      }
-
-      if (_newTask[0].task !== "" && _newTask[0].task !== null) {
-        console.log('空ではない');
-        console.log(_newTask[0].task);
-        console.log(_newTask);
-      } else {
-        window.alert('タスクを入力してください');
-        this.newTask = "";
-        console.log('空である');
-        console.log(_newTask);
       }
     },
     newTitle: function newTitle(_newTitle) {
-      var _this6 = this;
+      var _this5 = this;
 
       if (_newTitle !== null) {
         axios.post('/api/task/addNewTitle', {
           id: _newTitle[0].id,
           title: _newTitle[0].title
         }).then(function (response) {
-          _this6.allData = response.data;
+          _this5.allData = response.data;
         });
       } else {
         window.alert('タイトルを入力して下さい');
@@ -38216,7 +38219,7 @@ var render = function () {
             {
               on: {
                 click: function ($event) {
-                  return _vm.testDelete(2)
+                  return _vm.testDelete(3)
                 },
               },
             },

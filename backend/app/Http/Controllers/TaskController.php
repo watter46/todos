@@ -36,8 +36,9 @@ class TaskController extends Controller
         $task = Task::find($request->id);
         $task->task = $request->task;
         $task->save();
-        $titles = Title::select('id','area','title');
-        return $titles->with('tasks:id,title_id,task')->get();
+        return Task::where('id',$request->id)->get();
+        // $titles = Title::select('id','area','title');
+        // return $titles->with('tasks:id,title_id,task')->get();
     }
 
 

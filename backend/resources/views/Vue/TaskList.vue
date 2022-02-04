@@ -35,7 +35,7 @@
          
           {{testData}}
           <button @click="testAdd()">追加</button>
-          <button @click="testDelete(2)">削除</button>
+          <button @click="testDelete(3)">削除</button>
 
       </div>
     </div>
@@ -129,9 +129,11 @@
               })
             console.log(this.testData)
           },
-          testDelete(id) { 
+          testDelete(deleteId) { 
             let newObj = this.testData.filter(function(data){
-              if(data.id !== id) return true;
+              console.log(data.id)
+              if(data.id !== deleteId) return true;
+              console.log("after: " + data.id)
             });
 
             this.testData = newObj;
@@ -155,30 +157,33 @@
         },
         watch: {
           newTask: function (newTask) {
-            if(!newTask && newTask !== null) {
-            axios.post('/api/task/addNewTask', {
+            // if(!newTask && newTask !== null) {
+            // axios.post('/api/task/addNewTask', {
+            //   id: newTask[0].id,
+            //   task: newTask[0].task
+            // })
+            // .then((response) => {
+            //   // this.allData = response.data
+            //   console.log(response.data)
+            // })
+            // } else {
+            //   window.alert('タスクを入力してください')
+            //   console.log(this.newTask)
+            //   console.log(newTask)
+            //   // this.newTask = []
+            // }
+
+            if(newTask[0].task !== "" && newTask[0].task !== null) {
+              axios.post('/api/task/addNewTask', {
               id: newTask[0].id,
               task: newTask[0].task
             })
             .then((response) => {
-              this.allData = response.data
-            })
+              // this.allData = response.data
+              console.log(response.data)
+              })
             } else {
               window.alert('タスクを入力してください')
-              console.log(this.newTask)
-              console.log(newTask)
-              // this.newTask = []
-            }
-
-            if(newTask[0].task !== "" && newTask[0].task !== null) {
-              console.log('空ではない')
-              console.log(newTask[0].task)
-              console.log(newTask)
-            } else {
-              window.alert('タスクを入力してください')
-              this.newTask = ""
-              console.log('空である')
-              console.log(newTask)
             }
           },
           newTitle: function (newTitle) {
