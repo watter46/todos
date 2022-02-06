@@ -32,10 +32,7 @@
           <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div>
 
          </div>
-         
-          {{testData}}
-          <button @click="testAdd()">追加</button>
-          <button @click="testDelete(3)">削除</button>
+
 
       </div>
     </div>
@@ -49,27 +46,9 @@
         data() {
           return {
             newTitle: [],
-            newTask: [],
+            newTask: {},
             showTask: [],
             allData: [],
-            testData: [
-              {
-                "id":1,
-                "tasks":
-                  [
-                    {"id":1, "task": "aaa"},
-                    {"id":2, "task": "aaa2"}
-                  ]
-              },
-              {
-                "id":2,
-                "tasks":
-                  [
-                    {"id":3, "task": "aaa3"},
-                    {"id":4, "task": "aaa4"}
-                  ]
-              }
-            ]
           }
         },
         methods: {
@@ -82,10 +61,11 @@
             });
           },
           editTask(event) {
-            this.newTask.push({
+            const newObject = {
               id: event.target.id,
               task: event.target.value
-            })
+            }
+            this.newTask = Object.assign({}, this.newTask, newObject)
           },
           editTitle(event) {
             this.newTitle.push({
@@ -118,27 +98,6 @@
               return
             }
           },
-          testAdd() {
-            this.testData.push({
-                "id":3,
-                "tasks":
-                  [
-                    {"id":4, "task": "aaa3"},
-                    {"id":5, "task": "aaa4"}
-                  ]
-              })
-            console.log(this.testData)
-          },
-          testDelete(deleteId) { 
-            let newObj = this.testData.filter(function(data){
-              console.log(data.id)
-              if(data.id !== deleteId) return true;
-              console.log("after: " + data.id)
-            });
-
-            this.testData = newObj;
-            console.log(this.testData)
-          }
         },
         mounted() {
           axios.get('/api/task')
@@ -157,30 +116,27 @@
         },
         watch: {
           newTask: function (newTask) {
-            // if(!newTask && newTask !== null) {
-            // axios.post('/api/task/addNewTask', {
-            //   id: newTask[0].id,
-            //   task: newTask[0].task
-            // })
-            // .then((response) => {
-            //   // this.allData = response.data
-            //   console.log(response.data)
-            // })
-            // } else {
-            //   window.alert('タスクを入力してください')
-            //   console.log(this.newTask)
-            //   console.log(newTask)
-            //   // this.newTask = []
-            // }
-
+            console.log("検知")
             if(newTask[0].task !== "" && newTask[0].task !== null) {
               axios.post('/api/task/addNewTask', {
               id: newTask[0].id,
               task: newTask[0].task
             })
             .then((response) => {
-              // this.allData = response.data
+              this.allData = response.data
+              console.log("before")
+              console.log(this.newTask)
+
+              console.log("after")
+              console.log(this.newTask)
+              
+              console.log("レスポンス")
               console.log(response.data)
+
+              this.newTask = ""
+              console.log("空か確認")
+              console.log(this.newTask)
+
               })
             } else {
               window.alert('タスクを入力してください')
@@ -198,7 +154,7 @@
             } else {
               window.alert('タイトルを入力して下さい')
             }
-          }
+          },
         }
     }
 </script>
