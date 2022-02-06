@@ -2225,14 +2225,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      newTitle: [],
-      newTask: {},
-      showTask: [],
+      newTitle: {
+        id: "",
+        title: ""
+      },
+      newTask: {
+        id: "",
+        task: ""
+      },
       allData: []
     };
   },
@@ -2247,17 +2250,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editTask: function editTask(event) {
+      console.log("追加前");
+      console.log(this.newTask);
       var newObject = {
         id: event.target.id,
         task: event.target.value
       };
       this.newTask = Object.assign({}, this.newTask, newObject);
+      console.log("editTask");
+      console.log(this.newTask);
     },
     editTitle: function editTitle(event) {
-      this.newTitle.push({
+      console.log("追加前");
+      console.log(this.newTask);
+      var newObject = {
         id: event.target.id,
         title: event.target.value
-      });
+      };
+      this.newTitle = Object.assign({}, this.newTitle, newObject);
+      console.log("editTitle");
+      console.log(this.newTitle);
     },
     deleteTask: function deleteTask(id, done, task) {
       var _this2 = this;
@@ -2292,56 +2304,25 @@ __webpack_require__.r(__webpack_exports__);
     var _this4 = this;
 
     axios.get('/api/task').then(function (response) {
-      _this4.allData = response.data; // console.log(JSON.stringify(response.data, null, 2));
-
-      _this4.showTask = response.data.map(function (obj) {
-        return obj.tasks;
-      });
+      _this4.allData = response.data;
     });
-  },
-  computed: {
-    findTask: function findTask() {
-      return function () {
-        var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-        return index;
-      };
-    }
   },
   watch: {
     newTask: function newTask(_newTask) {
-      var _this5 = this;
-
-      console.log("検知");
-
-      if (_newTask[0].task !== "" && _newTask[0].task !== null) {
+      if (_newTask.task !== "" && _newTask.task !== null) {
         axios.post('/api/task/addNewTask', {
-          id: _newTask[0].id,
-          task: _newTask[0].task
-        }).then(function (response) {
-          _this5.allData = response.data;
-          console.log("before");
-          console.log(_this5.newTask);
-          console.log("after");
-          console.log(_this5.newTask);
-          console.log("レスポンス");
-          console.log(response.data);
-          _this5.newTask = "";
-          console.log("空か確認");
-          console.log(_this5.newTask);
+          id: _newTask.id,
+          task: _newTask.task
         });
       } else {
         window.alert('タスクを入力してください');
       }
     },
     newTitle: function newTitle(_newTitle) {
-      var _this6 = this;
-
-      if (_newTitle !== null) {
+      if (_newTitle.title !== "" && _newTitle.title !== null) {
         axios.post('/api/task/addNewTitle', {
-          id: _newTitle[0].id,
-          title: _newTitle[0].title
-        }).then(function (response) {
-          _this6.allData = response.data;
+          id: _newTitle.id,
+          title: _newTitle.title
         });
       } else {
         window.alert('タイトルを入力して下さい');
@@ -37999,6 +37980,14 @@ var render = function () {
                 },
                 [
                   _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: data.title,
+                        expression: "data.title",
+                      },
+                    ],
                     staticClass:
                       "form-control border-end-0 rounded-1 text-wrap text-center",
                     attrs: { type: "text", id: data.id },
@@ -38006,6 +37995,12 @@ var render = function () {
                     on: {
                       change: function ($event) {
                         return _vm.editTitle($event)
+                      },
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(data, "title", $event.target.value)
                       },
                     },
                   }),
@@ -38096,6 +38091,14 @@ var render = function () {
                         ),
                         _vm._v(" "),
                         _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: tasks.task,
+                              expression: "tasks.task",
+                            },
+                          ],
                           staticClass:
                             "form-control border-end-0 rounded-1 text-wrap",
                           attrs: { type: "text", id: tasks.id },
@@ -38103,6 +38106,12 @@ var render = function () {
                           on: {
                             change: function ($event) {
                               return _vm.editTask($event)
+                            },
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(tasks, "task", $event.target.value)
                             },
                           },
                         }),

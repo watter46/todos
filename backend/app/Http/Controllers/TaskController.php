@@ -9,7 +9,7 @@ use App\Task;
 class TaskController extends Controller
 {
     public function getData(Request $request) {
-        return Title::select('id','area','title')->with('tasks:id,title_id,task,comment')->get();
+        return Title::select('id','area','title')->where('id', 1)->with('tasks:id,title_id,task,comment')->get();
         // return $titles->with('tasks:id,title_id,task,comment')->get();
     }
 
