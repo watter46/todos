@@ -8,17 +8,18 @@
          <!-- タイトル一覧 -->
 
            <div class="input-group input-group-lg col-7 p-0 mb-3 border border-primary">
-            <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" v-model="data.title" @change="editTitle($event)" :id="data.id">
+            <input type="text" class="form-control border-end-0 rounded-1 text-wrap text-center" v-model.lazy="data.title" @change="editTitle($event)" :id="data.id">
             <span class="input-group-text bg-white border-start-0" @click.prevent="allDelete(data.id, data.title)">×</span>
+            <p>{{ "id: " + data.id }} {{ "area: " + data.area }}</p>
           </div>
           
          <!-- タスク一覧 -->
           <div class="d-flex justify-content-start" v-for="tasks in data.tasks" v-bind:key="tasks.id">
             <div class="input-group col-6 mb-3 border border-white">
               <div class="input-group-text border-0 bg-white">
-                <input class="form-check-input mt-0" type="checkbox" v-model="tasks.done">
+                <input class="form-check-input mt-0" type="checkbox" v-model.lazy="tasks.done">
               </div>
-              <input type="text" class="form-control border-end-0 rounded-1 text-wrap" v-model="tasks.task" @change="editTask($event)" :id="tasks.id">
+              <input type="text" class="form-control border-end-0 rounded-1 text-wrap" v-model.lazy="tasks.task" @change="editTask($event)" :id="tasks.id">
               <span class="input-group-text bg-white border-start-0" @click.prevent="deleteTask(tasks.id, tasks.done, tasks.task)">×</span>
             </div>
             <div>
@@ -26,9 +27,14 @@
             </div>
           </div>
 
+          <!-- input 追加 -->
+          <div class="d-flex justify-content-center">
+            <div class="icon icon--plus" @click.prevent="addTextBox(data.tasks[0]['title_id'])">
+              <span class="icon__mark"></span>
+            </div>
+          </div>
 
-          <div class="h1 font-weight-bold text-center" @click.prevent="addTextBox(data.tasks[0]['title_id'])">+</div>
-
+          
          </div>
 
 
@@ -137,3 +143,31 @@
         }
     }
 </script>
+
+<style>
+.icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  background: #ccc;
+  border-radius: 50%;
+}
+
+.icon::before, .icon--plus::after {
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  content: '';
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-top: 2px solid #fff;
+  transform: translateX(-50%);
+}
+
+.icon--plus:after {
+  top: 3px;
+  left: -3px;
+  transform: rotate(90deg);
+}
+</style>
