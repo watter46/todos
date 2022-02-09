@@ -116,31 +116,30 @@
           })
         },
         watch: {
-          // newTask: function (newTask) {
-          // // console.log("watch")
-          // // console.log(newTask)
-          //   if(newTask.task !== "" && newTask.task !== null) {
-          //     axios.post('/api/task/addNewTask', {
-          //     id: newTask.id,
-          //     task: newTask.task
-          //   })
-          //   } else {
-          //     window.alert('タスクを入力してください')
-          //   }
-          // },
-          // newTitle: function (newTitle) {
-          //   if(newTitle.title !== "" && newTitle.title !== null) {
-          //   axios.post('/api/task/addNewTitle', {
-          //     id: newTitle.id,
-          //     title: newTitle.title
-          //   })
-          //   } else {
-          //     window.alert('タイトルを入力して下さい')
-          //   }
-          // },
-          // allData: function(allData) {
-          //   console.log("変更しました")
-          // }
+          newTask: function (newTask) {
+            if(newTask.task !== "" && newTask.task !== null) {
+              axios.post('/api/task/addNewTask', {
+              id: newTask.id,
+              done: newTask.done,
+              task: newTask.task
+            })
+            } else {
+              window.alert('タスクを入力してください')
+            }
+          },
+          newTitle: function (newTitle) {
+            if(newTitle.title !== "" && newTitle.title !== null) {
+            axios.post('/api/task/addNewTitle', {
+              id: newTitle.id,
+              title: newTitle.title
+            })
+            } else {
+              window.alert('タイトルを入力して下さい')
+            }
+          },
+          allData: function(allData) {
+            console.log("変更しました")
+          }
         }
     }
 </script>
