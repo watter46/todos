@@ -2231,6 +2231,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2240,6 +2242,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       newTask: {
         id: "",
+        done: "",
         task: ""
       },
       allData: []
@@ -2255,27 +2258,21 @@ __webpack_require__.r(__webpack_exports__);
         _this.allData = response.data;
       });
     },
-    editTask: function editTask(event) {
-      console.log("追加前");
-      console.log(this.newTask);
+    editTask: function editTask(e) {
       var newObject = {
-        id: event.target.id,
-        task: event.target.value
+        id: e.target.id,
+        done: e.target.checked,
+        task: e.target.value
       };
       this.newTask = Object.assign({}, this.newTask, newObject);
-      console.log("editTask");
       console.log(this.newTask);
     },
-    editTitle: function editTitle(event) {
-      console.log("追加前");
-      console.log(this.newTask);
+    editTitle: function editTitle(e) {
       var newObject = {
-        id: event.target.id,
-        title: event.target.value
+        id: e.target.id,
+        title: e.target.value
       };
       this.newTitle = Object.assign({}, this.newTitle, newObject);
-      console.log("editTitle");
-      console.log(this.newTitle);
     },
     deleteTask: function deleteTask(id, done, task) {
       var _this2 = this;
@@ -2313,27 +2310,31 @@ __webpack_require__.r(__webpack_exports__);
       _this4.allData = response.data;
     });
   },
-  watch: {
-    newTask: function newTask(_newTask) {
-      if (_newTask.task !== "" && _newTask.task !== null) {
-        axios.post('/api/task/addNewTask', {
-          id: _newTask.id,
-          task: _newTask.task
-        });
-      } else {
-        window.alert('タスクを入力してください');
-      }
-    },
-    newTitle: function newTitle(_newTitle) {
-      if (_newTitle.title !== "" && _newTitle.title !== null) {
-        axios.post('/api/task/addNewTitle', {
-          id: _newTitle.id,
-          title: _newTitle.title
-        });
-      } else {
-        window.alert('タイトルを入力して下さい');
-      }
-    }
+  watch: {// newTask: function (newTask) {
+    // // console.log("watch")
+    // // console.log(newTask)
+    //   if(newTask.task !== "" && newTask.task !== null) {
+    //     axios.post('/api/task/addNewTask', {
+    //     id: newTask.id,
+    //     task: newTask.task
+    //   })
+    //   } else {
+    //     window.alert('タスクを入力してください')
+    //   }
+    // },
+    // newTitle: function (newTitle) {
+    //   if(newTitle.title !== "" && newTitle.title !== null) {
+    //   axios.post('/api/task/addNewTitle', {
+    //     id: newTitle.id,
+    //     title: newTitle.title
+    //   })
+    //   } else {
+    //     window.alert('タイトルを入力して下さい')
+    //   }
+    // },
+    // allData: function(allData) {
+    //   console.log("変更しました")
+    // }
   }
 });
 
@@ -38428,9 +38429,7 @@ var render = function () {
                         function ($event) {
                           return _vm.$set(data, "title", $event.target.value)
                         },
-                        function ($event) {
-                          return _vm.editTitle($event)
-                        },
+                        _vm.editTitle,
                       ],
                     },
                   }),
@@ -38482,13 +38481,12 @@ var render = function () {
                               directives: [
                                 {
                                   name: "model",
-                                  rawName: "v-model.lazy",
+                                  rawName: "v-model",
                                   value: tasks.done,
                                   expression: "tasks.done",
-                                  modifiers: { lazy: true },
                                 },
                               ],
-                              staticClass: "form-check-input mt-0",
+                              staticClass: "form-check-input",
                               attrs: { type: "checkbox" },
                               domProps: {
                                 checked: Array.isArray(tasks.done)
@@ -38542,7 +38540,7 @@ var render = function () {
                           staticClass:
                             "form-control border-end-0 rounded-1 text-wrap",
                           attrs: { type: "text", id: tasks.id },
-                          domProps: { value: tasks.task },
+                          domProps: { checked: tasks.done, value: tasks.task },
                           on: {
                             change: [
                               function ($event) {
@@ -38552,9 +38550,7 @@ var render = function () {
                                   $event.target.value
                                 )
                               },
-                              function ($event) {
-                                return _vm.editTask($event)
-                              },
+                              _vm.editTask,
                             ],
                           },
                         }),

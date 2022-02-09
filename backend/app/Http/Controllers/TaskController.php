@@ -9,8 +9,8 @@ use App\Task;
 class TaskController extends Controller
 {
     public function getData(Request $request) {
-        return Title::select('id','area','title')->with('tasks:id,title_id,task,comment')->get();
-        // return $titles->with('tasks:id,title_id,task,comment')->get();
+        return Title::select('id','area','title')->with('tasks:id,done,title_id,task,comment')->get();
+        // return $titles->with('tasks:id,done,title_id,task,comment')->get();
     }
 
     public function addTextBox(Request $request) {
@@ -20,7 +20,7 @@ class TaskController extends Controller
         $task->task = "";
         $task->save();
         $titles = Title::select('id','area','title');
-        return $titles->with('tasks:id,title_id,task')->get();
+        return $titles->with('tasks:id,done,title_id,task')->get();
     }
 
     public function addNewTitle(Request $request) {
@@ -28,7 +28,7 @@ class TaskController extends Controller
         $title->title = $request->title;
         $title->save();
         $titles = Title::select('id','area','title');
-        return $titles->with('tasks:id,title_id,task')->get();
+        return $titles->with('tasks:id,done,title_id,task')->get();
     }
 
 
@@ -38,19 +38,19 @@ class TaskController extends Controller
         $task->save();
         return Task::where('id',$request->id)->get();
         // $titles = Title::select('id','area','title');
-        // return $titles->with('tasks:id,title_id,task')->get();
+        // return $titles->with('tasks:id,done,title_id,task')->get();
     }
 
 
     public function deleteTask(Request $request) {
         $tasks = Task::where('id', $request->id)->delete();
         $titles = Title::select('id','area','title');
-        return $titles->with('tasks:id,title_id,task')->get();
+        return $titles->with('tasks:id,done,title_id,task')->get();
     }
 
     public function allDelete(Request $request) {
         $titles = Title::where('id', $request->id)->delete();
         $titles = Title::select('id','area','title');
-        return $titles->with('tasks:id,title_id,task')->get();
+        return $titles->with('tasks:id,done,title_id,task')->get();
     }
 }
