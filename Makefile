@@ -3,7 +3,7 @@ up:
 build:
 	docker compose build --no-cache --force-rm
 env:
-	ash make_env.sh
+	bash make_env.sh
 laravel-install:
 	docker compose exec app composer create-project --prefer-dist laravel/laravel . "6.*"
 create-project:
